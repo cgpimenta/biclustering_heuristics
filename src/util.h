@@ -5,6 +5,10 @@
 #include <sstream>
 #include <iterator>
 
+typedef std::vector<std::vector<double> > Matrix;
+typedef std::vector<int> Rows;
+typedef std::vector<int> Cols;
+
 namespace patch
 {
     template < typename T > std::string to_string( const T& n )
