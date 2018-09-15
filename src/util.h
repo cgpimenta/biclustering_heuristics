@@ -1,13 +1,16 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-
 #include <sstream>
 #include <iterator>
 
 typedef std::vector<std::vector<double> > Matrix;
-typedef std::vector<int> Rows;
-typedef std::vector<int> Cols;
+
+template<typename T>
+using Rows = std::vector<T>;
+
+template<typename T>
+using Cols = std::vector<T>;
 
 namespace patch
 {
