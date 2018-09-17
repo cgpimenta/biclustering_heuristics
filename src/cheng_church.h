@@ -3,9 +3,23 @@
 
 #include "readcsv.h"
 
-long double residueScore(Matrix dataMatrix, Rows rows, Cols cols);
-double getRowMean(Matrix dataMatrix, int row, Cols cols);
-double getColMean(Matrix dataMatrix, Rows rows, int col);
-double getMatrixMean(Matrix dataMatrix, Rows rows, Cols cols);
+class Solution {
+public:
+    Rows<int> rows;
+    Rows<double> rowMeans;
+    Cols<int> cols;
+    Cols<double> colMeans;
+    double matrixMean;
+};
+
+void runChengChurch(Matrix &dataMatrix, double maxResidue); 
+void singleNodeDeletion(Matrix &dataMatrix, Solution &sol, double maxResidue);
+
+void initSolution(Solution &sol, Matrix &dataMatrix);
+double rcResidue(Matrix &dataMatrix, Solution &sol, std::string dim);
+double residueScore(Matrix &dataMatrix, Solution &sol);
+double getRCMean(Matrix &dataMatrix, int idx, Solution &sol, std::string dim);
+double getMatrixMean(Matrix &dataMatrix, Solution &sol);
+void removeRCbyResidue(Matrix &dataMatrix, Solution &sol);
 
 #endif
