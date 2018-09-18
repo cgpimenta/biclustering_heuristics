@@ -6,7 +6,7 @@
 #include "matrix.h"
 
 
-#define ITERATIONS 2
+#define ITERATIONS 4
 
 template <typename T>
 void print(const std::vector<T>& v){
@@ -48,20 +48,21 @@ double correlation_coefficient(int a, int b, const std::vector<double>& corr_coe
     double ma2 = corr_coeff2[a][a];
     double mb2 = corr_coeff2[b][b];
 
-    std::cout << "ma:" << ma << std::endl
-              << "mb:" << mb << std::endl
-              << "mab:" << mab << std::endl
-              << "ma2:" << ma2 << std::endl
-              << "mb2:" << mb2 << std::endl << std::endl;
+    // std::cout << "ma:" << ma << std::endl
+    //           << "mb:" << mb << std::endl
+    //           << "mab:" << mab << std::endl
+    //           << "ma2:" << ma2 << std::endl
+    //           << "mb2:" << mb2 << std::endl << std::endl;
 
-    std::cout << '(' << mab << " - " << ma << " * " << mb << ") / sqrt((" << ma2<<" - ("<<ma<<" * "<<ma<<")) * ("<<mb2<<" - ("<<mb<<" * "<<mb<<"))) "<< std::endl;
-    std::cout << '(' << (mab - ma * mb) << ") / sqrt((" << ma2<<" - "<<(ma * ma)<<") * ("<<mb2<<" - "<<(mb * mb )<<")) "<< std::endl;
-    std::cout << '(' << (mab - ma * mb) << ") / sqrt((" << (ma2 - ma * ma)<<") * ("<<(mb2 - mb * mb)<<")) "<< std::endl;
-    std::cout << '(' << (mab - ma * mb) << ") / sqrt(" << ((ma2 - ma * ma) * (mb2 - mb * mb))<<") "<< std::endl;
-    std::cout << '(' << (mab - ma * mb) << ") / " << sqrt((ma2 - ma * ma) * (mb2 - mb * mb)) << std::endl;
+    // std::cout << '(' << mab << " - " << ma << " * " << mb << ") / sqrt((" << ma2<<" - ("<<ma<<" * "<<ma<<")) * ("<<mb2<<" - ("<<mb<<" * "<<mb<<"))) "<< std::endl;
+    // std::cout << '(' << (mab - ma * mb) << ") / sqrt((" << ma2<<" - "<<(ma * ma)<<") * ("<<mb2<<" - "<<(mb * mb )<<")) "<< std::endl;
+    // std::cout << '(' << (mab - ma * mb) << ") / sqrt((" << (ma2 - ma * ma)<<") * ("<<(mb2 - mb * mb)<<")) "<< std::endl;
+    // std::cout << '(' << (mab - ma * mb) << ") / sqrt(" << ((ma2 - ma * ma) * (mb2 - mb * mb))<<") "<< std::endl;
+    // std::cout << '(' << (mab - ma * mb) << ") / " << sqrt((ma2 - ma * ma) * (mb2 - mb * mb)) << std::endl;
 
-
-    return (mab - ma * mb) / sqrt((ma2 - (ma * ma)) * (mb2 - (mb * mb)));
+    double numerator = (mab - ma * mb);
+    double denominator = sqrt((ma2 - (ma * ma)) * (mb2 - (mb * mb)));
+    return  (!numerator && !denominator) ? 1 : ((!denominator) ? 0 : (numerator / denominator));
 }
 
 
@@ -88,10 +89,10 @@ void weighted_corr(const Matrix& data, const std::vector<double>& feature_weight
     std::vector<std::vector<double> > corr_coeff2(dimension.first, std::vector<double>(dimension.first));
 
     corr_coeff_matrix(data, feature_weight, corr_coeff, corr_coeff2);
-    print<double>(corr_coeff);
-    print<double>(corr_coeff2);
-    std::cout << std::endl;
-    std::cout << dimension.first << ' ' << dimension.second << std::endl;
+    // print<double>(corr_coeff);
+    // print<double>(corr_coeff2);
+    // std::cout << std::endl;
+    // std::cout << dimension.first << ' ' << dimension.second << std::endl;
 
     for (int i = 0; i < (dimension.first - 1); i++){
         similarity_matrix[i][i] = 1;
@@ -158,35 +159,35 @@ void weightedCorrBicluster(Matrix data, double alpha, double threshold){
             std::cout << data << std::endl;
 
             update_feature_weight(feature_weight, row_flag, alpha);
-            print<double>(feature_weight);
-            std::cout << std::endl;
+            // print<double>(feature_weight);
+            // std::cout << std::endl;
             
             std::vector<std::vector<double> > similarity_matrix(n, std::vector<double>(n));
-            std::cout << "similarity_matrix: ";
-            print<double>(similarity_matrix);
-            std::cout << std::endl;
+            // std::cout << "similarity_matrix: ";
+            // print<double>(similarity_matrix);
+            // std::cout << std::endl;
             
             weighted_corr(data, feature_weight, similarity_matrix);                     // compute the similarity matrix
-            std::cout << "similarity_matrix: ";
-            print<double>(similarity_matrix);
-            std::cout << std::endl;
+            // std::cout << "similarity_matrix: ";
+            // print<double>(similarity_matrix);
+            // std::cout << std::endl;
 
             std::vector<double> sorting_vector = dominant_set(similarity_matrix, 1e-04);       // use dominant set approach to find the sorting vector
-            std::cout << "sorting_vector: ";
-            print<double>(sorting_vector);
-            std::cout << std::endl;
+            // std::cout << "sorting_vector: ";
+            // print<double>(sorting_vector);
+            // std::cout << std::endl;
 
             // std::cout << data << std::endl;
-            // data.weighted_row_sort(sorting_vector);             // sort the rows of matrix data
+            data.weighted_row_sort(sorting_vector);             // sort the rows of matrix data
             // std::cout << data << std::endl;
 
             data.transpose();
             row_flag.swap(col_flag);
             std::swap(n, m);
-            std::cout << "feature_weight: " << feature_weight.size() << " sorting_vector: " << sorting_vector.size() << std::endl;
+            // std::cout << "feature_weight: " << feature_weight.size() << " sorting_vector: " << sorting_vector.size() << std::endl;
 
             feature_weight = sorting_vector;                    //update the feature weight vector
-            std::cout << "feature_weight: " << feature_weight.size() << std::endl;
+            // std::cout << "feature_weight: " << feature_weight.size() << std::endl;
         }
 
     //     // [newflag, BI] = find_bicluster(data, threshold);        //extract the bicluster from the sorted data matrix
