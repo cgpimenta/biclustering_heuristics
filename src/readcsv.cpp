@@ -1,10 +1,9 @@
 #include "readcsv.h"
 
-
-Matrix readCSV(const std::string &input_file, char delim){
+std::vector<std::vector<double> > readCSV(const std::string &input_file, char delim){
     std::string line;
 
-    Matrix v;
+    std::vector<std::vector<double> > v;
 
     std::ifstream myfile(input_file.c_str());
 

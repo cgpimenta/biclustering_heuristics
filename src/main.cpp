@@ -5,12 +5,15 @@
 
 int main(int argc, char **argv) {
     std::string inputFile = argv[1];
-    Matrix dataMatrix = readCSV(inputFile, ',');
+    std::vector<std::vector<double> > dataMatrix = readCSV(inputFile, ',');
 
-    double maxResidue = 0.05;
+    double maxResidue = 0.005;
+    double threshold = 2.0;
+    int numClusters = 4;
 
     // Cheng & Church:
-    runChengChurch(dataMatrix, maxResidue);
+    std::vector<Solution> sols = runChengChurch(dataMatrix, maxResidue, threshold, numClusters);
+    printBiclusters(sols);
     
     // Teng:
     // TODO

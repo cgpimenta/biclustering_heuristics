@@ -4,14 +4,6 @@
 #include <sstream>
 #include <iterator>
 
-typedef std::vector<std::vector<double> > Matrix;
-
-template<typename T>
-using Rows = std::vector<T>;
-
-template<typename T>
-using Cols = std::vector<T>;
-
 namespace patch
 {
     template < typename T > std::string to_string( const T& n )
