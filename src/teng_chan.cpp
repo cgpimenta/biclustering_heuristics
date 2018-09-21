@@ -8,6 +8,14 @@
 
 #define ITERATIONS 4
 
+typedef std::pair<std::vector<int>, std::vector<int> > Bicluster;
+
+struct Flags{
+    std::vector<bool> rows;
+    std::vector<bool> cols;
+};
+
+
 template <typename T>
 void print(const std::vector<T>& v){
     for(auto &e : v){
@@ -26,6 +34,29 @@ void print(const std::vector<std::vector<T> >& A){
     }
 }
 
+
+double correlation_coefficient(const std::vector<double> x, const std::vector<double> y){
+    double sum_x = 0;
+    double sum_y = 0;
+    double sum_xx = 0;
+    double sum_yy = 0;
+    double sum_xy = 0;
+    int n = x.size();
+
+    for(int i = 0; i < n; i++){
+        sum_x += x[i];
+        sum_y += y[i];
+        sum_xx += x[i] * x[i];
+        sum_yy += y[i] * y[i];
+        sum_xy += x[i] * y[i];
+    }
+
+    double numerator = (sum_xy - sum_x * sum_y / n);
+    double denominator = sqrt((sum_xx - (sum_x * sum_x) / n) * (sum_yy - (sum_y * sum_y) / n));
+    return  (!denominator) ? 0 : (numerator / denominator);
+}
+
+
 void update_feature_weight(std::vector<double>& feature_weight, const std::vector<bool>& flag_vector, double alpha){
     double total_sum = 0;
     int size = feature_weight.size();
@@ -41,28 +72,16 @@ void update_feature_weight(std::vector<double>& feature_weight, const std::vecto
 }
 
 
-double correlation_coefficient(int a, int b, const std::vector<double>& corr_coeff, const std::vector<std::vector<double> >& corr_coeff2){
+double weighted_correlation_coefficient(int a, int b, const std::vector<double>& corr_coeff, const std::vector<std::vector<double> >& corr_coeff2){
     double ma = corr_coeff[a];
     double mb = corr_coeff[b];
     double mab = corr_coeff2[a][b];
     double ma2 = corr_coeff2[a][a];
     double mb2 = corr_coeff2[b][b];
 
-    // std::cout << "ma:" << ma << std::endl
-    //           << "mb:" << mb << std::endl
-    //           << "mab:" << mab << std::endl
-    //           << "ma2:" << ma2 << std::endl
-    //           << "mb2:" << mb2 << std::endl << std::endl;
-
-    // std::cout << '(' << mab << " - " << ma << " * " << mb << ") / sqrt((" << ma2<<" - ("<<ma<<" * "<<ma<<")) * ("<<mb2<<" - ("<<mb<<" * "<<mb<<"))) "<< std::endl;
-    // std::cout << '(' << (mab - ma * mb) << ") / sqrt((" << ma2<<" - "<<(ma * ma)<<") * ("<<mb2<<" - "<<(mb * mb )<<")) "<< std::endl;
-    // std::cout << '(' << (mab - ma * mb) << ") / sqrt((" << (ma2 - ma * ma)<<") * ("<<(mb2 - mb * mb)<<")) "<< std::endl;
-    // std::cout << '(' << (mab - ma * mb) << ") / sqrt(" << ((ma2 - ma * ma) * (mb2 - mb * mb))<<") "<< std::endl;
-    // std::cout << '(' << (mab - ma * mb) << ") / " << sqrt((ma2 - ma * ma) * (mb2 - mb * mb)) << std::endl;
-
     double numerator = (mab - ma * mb);
     double denominator = sqrt((ma2 - (ma * ma)) * (mb2 - (mb * mb)));
-    return  (!numerator && !denominator) ? 1 : ((!denominator) ? 0 : (numerator / denominator));
+    return  (!denominator) ? 0 : (numerator / denominator);
 }
 
 
@@ -89,15 +108,11 @@ void weighted_corr(const Matrix& data, const std::vector<double>& feature_weight
     std::vector<std::vector<double> > corr_coeff2(dimension.first, std::vector<double>(dimension.first));
 
     corr_coeff_matrix(data, feature_weight, corr_coeff, corr_coeff2);
-    // print<double>(corr_coeff);
-    // print<double>(corr_coeff2);
-    // std::cout << std::endl;
-    // std::cout << dimension.first << ' ' << dimension.second << std::endl;
 
     for (int i = 0; i < (dimension.first - 1); i++){
         similarity_matrix[i][i] = 1;
         for (int j = i + 1; j < dimension.first; j++){
-            similarity_matrix[i][j] = similarity_matrix[j][i] = correlation_coefficient(i, j, corr_coeff, corr_coeff2);
+            similarity_matrix[i][j] = similarity_matrix[j][i] = weighted_correlation_coefficient(i, j, corr_coeff, corr_coeff2);
         }
     }
     similarity_matrix[dimension.first-1][dimension.first-1] = 1;
@@ -141,61 +156,105 @@ std::vector<double> dominant_set(const std::vector<std::vector<double> >& A, dou
 
 
 
-// Input: the initial gene expression data matrix data, f, a and the Threshold,
-void weightedCorrBicluster(Matrix data, double alpha, double threshold){
-    bool biclusters_exists = true;
+bool find_bicluster(const Matrix& data, double threshold,
+                    Bicluster& bicluster, Flags& flag){
 
     std::pair<int, int> dimension = data.dimension();
-    int n = dimension.first;
-    int m = dimension.second;
+    double coeff;
+    bool found_row = false;
+    bool found_col = false;
 
-    std::vector<double> feature_weight(m, m);        // initialize the feature vector for the m conditions.
+    double sum_x = 0;
+    double sum_y = 0;
+    double sum_xx = 0;
+    double sum_yy = 0;
+    double sum_xy = 0;
 
-    std::vector<bool> row_flag(n);
-    std::vector<bool> col_flag(m);
-
-    while(biclusters_exists){
-        for(int i = 0; i < ITERATIONS; i++){
-            std::cout << data << std::endl;
-
-            update_feature_weight(feature_weight, row_flag, alpha);
-            // print<double>(feature_weight);
-            // std::cout << std::endl;
-            
-            std::vector<std::vector<double> > similarity_matrix(n, std::vector<double>(n));
-            // std::cout << "similarity_matrix: ";
-            // print<double>(similarity_matrix);
-            // std::cout << std::endl;
-            
-            weighted_corr(data, feature_weight, similarity_matrix);                     // compute the similarity matrix
-            // std::cout << "similarity_matrix: ";
-            // print<double>(similarity_matrix);
-            // std::cout << std::endl;
-
-            std::vector<double> sorting_vector = dominant_set(similarity_matrix, 1e-04);       // use dominant set approach to find the sorting vector
-            // std::cout << "sorting_vector: ";
-            // print<double>(sorting_vector);
-            // std::cout << std::endl;
-
-            // std::cout << data << std::endl;
-            data.weighted_row_sort(sorting_vector);             // sort the rows of matrix data
-            // std::cout << data << std::endl;
-
-            data.transpose();
-            row_flag.swap(col_flag);
-            std::swap(n, m);
-            // std::cout << "feature_weight: " << feature_weight.size() << " sorting_vector: " << sorting_vector.size() << std::endl;
-
-            feature_weight = sorting_vector;                    //update the feature weight vector
-            // std::cout << "feature_weight: " << feature_weight.size() << std::endl;
+    for(int i = dimension.first - 1; i >= 0; i--){
+        for(int j = 0; j < dimension.sedon ; j++){
+            coeff = correlation_coefficient(data.get_row(i), data.get_row(i-1));
         }
 
-    //     // [newflag, BI] = find_bicluster(data, threshold);        //extract the bicluster from the sorted data matrix
-    //     // Output BI;
-    //     // flag_vector = newflag; // update the flag vector
-        biclusters_exists = false;
+        if(coeff < threshold){
+            i = 0;
+            j = 0;
+            found_row = true;
+        }
+        bicluster.first.push_back(data.get_row_index(i));
+        flag.rows[data.get_row_index(i)] = true;
     }
+
+    for(int i = dimension.second - 1; i >= 0; i--){
+        for(int j = dimension.second - 1; i >= 0; i--){
+            coeff = correlation_coefficient(data.get_col(i), data.get_col(i-1));
+            if(coeff < threshold){
+                i = 0;
+                j = 0;
+                found_col = false;
+            }
+            bicluster.second.push_back(data.get_col_index(i));
+            flag.cols[data.get_col_index(i)] = true;
+        }
+    }
+    return found_col || found_row;
 }
+
+
+// // Input: the initial gene expression data matrix data, f, a and the Threshold,
+// void weightedCorrBicluster(Matrix& data, double alpha, double threshold){
+//     bool biclusters_exists = true;
+
+//     std::pair<int, int> dimension = data.dimension();
+//     int n = dimension.first;
+//     int m = dimension.second;
+
+//     std::vector<double> feature_weight(m, m);        // initialize the feature vector for the m conditions.
+
+//     std::vector<bool> row_flag(n);
+//     std::vector<bool> col_flag(m);
+
+//     while(biclusters_exists){
+//         for(int i = 0; i < ITERATIONS; i++){
+//             std::cout << data << std::endl;
+
+//             update_feature_weight(feature_weight, row_flag, alpha);
+//             // print<double>(feature_weight);
+//             // std::cout << std::endl;
+            
+//             std::vector<std::vector<double> > similarity_matrix(n, std::vector<double>(n));
+//             // std::cout << "similarity_matrix: ";
+//             // print<double>(similarity_matrix);
+//             // std::cout << std::endl;
+            
+//             weighted_corr(data, feature_weight, similarity_matrix);                     // compute the similarity matrix
+//             // std::cout << "similarity_matrix: ";
+//             // print<double>(similarity_matrix);
+//             // std::cout << std::endl;
+
+//             std::vector<double> sorting_vector = dominant_set(similarity_matrix, 1e-04);       // use dominant set approach to find the sorting vector
+//             // std::cout << "sorting_vector: ";
+//             // print<double>(sorting_vector);
+//             // std::cout << std::endl;
+
+//             // std::cout << data << std::endl;
+//             data.weighted_row_sort(sorting_vector);             // sort the rows of matrix data
+//             // std::cout << data << std::endl;
+
+//             data.transpose();
+//             row_flag.swap(col_flag);
+//             std::swap(n, m);
+//             // std::cout << "feature_weight: " << feature_weight.size() << " sorting_vector: " << sorting_vector.size() << std::endl;
+
+//             feature_weight = sorting_vector;                    //update the feature weight vector
+//             // std::cout << "feature_weight: " << feature_weight.size() << std::endl;
+//         }
+
+//     //     // [newflag, BI] = find_bicluster(data, threshold);        //extract the bicluster from the sorted data matrix
+//     //     // Output BI;
+//     //     // flag_vector = newflag; // update the flag vector
+//         biclusters_exists = false;
+//     }
+// }
 
 
 int main(){
@@ -204,7 +263,8 @@ int main(){
 
     Matrix B(A);
 
-    weightedCorrBicluster(B, 0.2, 0.1);
+    // weightedCorrBicluster(B, 0.2, 0.1);
+    std::cout << B << std::endl;
 
 
     // std::vector<int> index(5);

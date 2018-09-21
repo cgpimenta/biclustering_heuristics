@@ -29,6 +29,12 @@ public:
     inline std::vector<double>& operator[](int i) { return matrix[i]; };
     inline const std::vector<double>& operator[](int i) const { return matrix[i]; };
 
+    inline int get_row_index(int i) const { return row_index[i]; };
+    inline int get_col_index(int i) const { return col_index[i]; };
+
+    std::vector<double> get_row(int i) const;
+    std::vector<double> get_col(int j) const;
+
     double& operator()(int i, int j){
         return (this->is_transposed) ?
             matrix[row_index[j]][col_index[i]] :

@@ -1,6 +1,7 @@
 #include "matrix.h"
 #include <numeric>
 #include <algorithm>
+#include <iostream>
 
 
 Matrix::Matrix(int rows, int cols){
@@ -34,7 +35,21 @@ void Matrix::resetIndex(){
     std::iota(this->col_index.begin(), this->col_index.end(), 0);
 }
 
-#include <iostream>
+
+std::vector<double> Matrix::get_row(int i) const{
+    return this->matrix[this->row_index[i]];
+}
+
+
+std::vector<double> Matrix::get_col(int j) const{
+    std::vector<double> col(this->rows);
+    for(int i = 0; i < rows; i++){
+        col[i] = matrix[i][col_index[j]];
+    }
+    return col;
+}
+
+
 void Matrix::weighted_row_sort(const std::vector<double>& weight){
     std::vector<int> &line_index = (this->is_transposed) ? this->col_index : this->row_index;
 
