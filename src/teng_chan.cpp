@@ -10,10 +10,7 @@
 
 typedef std::pair<std::vector<int>, std::vector<int> > Bicluster;
 
-struct Flags{
-    std::vector<bool> rows;
-    std::vector<bool> cols;
-};
+typedef std::pair<std::vector<bool>, std::vector<bool> > Flags;
 
 
 template <typename T>
@@ -32,28 +29,6 @@ void print(const std::vector<std::vector<T> >& A){
         }
         std::cout << std::endl;
     }
-}
-
-
-double correlation_coefficient(const std::vector<double> x, const std::vector<double> y){
-    double sum_x = 0;
-    double sum_y = 0;
-    double sum_xx = 0;
-    double sum_yy = 0;
-    double sum_xy = 0;
-    int n = x.size();
-
-    for(int i = 0; i < n; i++){
-        sum_x += x[i];
-        sum_y += y[i];
-        sum_xx += x[i] * x[i];
-        sum_yy += y[i] * y[i];
-        sum_xy += x[i] * y[i];
-    }
-
-    double numerator = (sum_xy - sum_x * sum_y / n);
-    double denominator = sqrt((sum_xx - (sum_x * sum_x) / n) * (sum_yy - (sum_y * sum_y) / n));
-    return  (!denominator) ? 0 : (numerator / denominator);
 }
 
 
@@ -119,13 +94,13 @@ void weighted_corr(const Matrix& data, const std::vector<double>& feature_weight
 }
 
 
-std::vector<double> dominant_set(const std::vector<std::vector<double> >& A, double epsilon){
+void dominant_set(const std::vector<std::vector<double> >& A, double epsilon, std::vector<double>& x){
     double distance, row_sum, total_sum, aux;
 
     epsilon *= epsilon;
 
     int size = A.size();
-    std::vector<double> x(size, 1. / size);
+    std::fill(x.begin(), x.end(), 1. / size);
     std::vector<double> new_x(size);
 
     do{
@@ -150,111 +125,113 @@ std::vector<double> dominant_set(const std::vector<std::vector<double> >& A, dou
         }
 
     }while(distance > epsilon);
-
-    return x;
 }
 
 
 
-bool find_bicluster(const Matrix& data, double threshold,
-                    Bicluster& bicluster, Flags& flag){
+bool find_bicluster(Matrix& data, double threshold, Bicluster& bicluster, Flags& flag){
 
     std::pair<int, int> dimension = data.dimension();
-    double coeff;
-    bool found_row = false;
-    bool found_col = false;
+    bool found = false;
 
-    double sum_x = 0;
-    double sum_y = 0;
-    double sum_xx = 0;
-    double sum_yy = 0;
-    double sum_xy = 0;
+    double coeff, sum_x, sum_y, sum_xx, sum_yy, sum_xy;
 
-    for(int i = dimension.first - 1; i >= 0; i--){
-        for(int j = 0; j < dimension.sedon ; j++){
-            coeff = correlation_coefficient(data.get_row(i), data.get_row(i-1));
-        }
+    int rows = dimension.first;
+    int cols = dimension.second;
 
-        if(coeff < threshold){
-            i = 0;
-            j = 0;
-            found_row = true;
-        }
-        bicluster.first.push_back(data.get_row_index(i));
-        flag.rows[data.get_row_index(i)] = true;
-    }
+    for(int k = 0; k < 2; k++){
+        for(int i = rows - 1; i > 0; i--){
+            coeff = sum_x = sum_y = sum_xx = sum_yy = sum_xy = 0;
 
-    for(int i = dimension.second - 1; i >= 0; i--){
-        for(int j = dimension.second - 1; i >= 0; i--){
-            coeff = correlation_coefficient(data.get_col(i), data.get_col(i-1));
-            if(coeff < threshold){
-                i = 0;
-                j = 0;
-                found_col = false;
+            for(int j = 0; j < cols; j++){
+                sum_x += data(i, j);
+                sum_y += data(i - 1, j);
+                sum_xx += data(i, j) * data(i, j);
+                sum_yy += data(i - 1, j) * data(i - 1, j);
+                sum_xy += data(i, j) * data(i - 1, j);
             }
-            bicluster.second.push_back(data.get_col_index(i));
-            flag.cols[data.get_col_index(i)] = true;
+
+            double numerator = (sum_xy - sum_x * sum_y / cols);
+            double denominator = sqrt((sum_xx - (sum_x * sum_x) / cols) * (sum_yy - (sum_y * sum_y) / cols));
+            coeff = (!denominator) ? 0 : (numerator / denominator);
+
+            bicluster.first.push_back(data.get_row_index(i));
+            flag.first[data.get_row_index(i)] = true;
+
+            if(coeff > threshold){
+                found = true;
+                break;
+            }
         }
+
+        data.transpose();
+        std::swap(rows, cols);
+        bicluster.first.swap(bicluster.second);
+        flag.first.swap(flag.second);
     }
-    return found_col || found_row;
+
+    return found;
 }
 
 
-// // Input: the initial gene expression data matrix data, f, a and the Threshold,
-// void weightedCorrBicluster(Matrix& data, double alpha, double threshold){
-//     bool biclusters_exists = true;
+// Input: the initial gene expression data matrix data, f, a and the Threshold,
+void weightedCorrBicluster(Matrix& data, double alpha, double threshold, Bicluster& bicluster){
+    bool biclusters_exists = true;
+    Flags flag;
 
-//     std::pair<int, int> dimension = data.dimension();
-//     int n = dimension.first;
-//     int m = dimension.second;
+    std::pair<int, int> dimension = data.dimension();
+    int n = dimension.first;
+    int m = dimension.second;
 
-//     std::vector<double> feature_weight(m, m);        // initialize the feature vector for the m conditions.
+    flag.first = std::vector<bool>(n);
+    flag.second = std::vector<bool>(m);
 
-//     std::vector<bool> row_flag(n);
-//     std::vector<bool> col_flag(m);
+    std::vector<double> feature_weight(m, m);        // initialize the feature vector for the m conditions.
+    std::vector<double> sorting_vector(n);
 
-//     while(biclusters_exists){
-//         for(int i = 0; i < ITERATIONS; i++){
-//             std::cout << data << std::endl;
+    std::vector<std::vector<double> > similarity_matrix(n, std::vector<double>(n));
+    std::vector<std::vector<double> > alt_similarity_matrix(m, std::vector<double>(m));
 
-//             update_feature_weight(feature_weight, row_flag, alpha);
-//             // print<double>(feature_weight);
-//             // std::cout << std::endl;
+
+    while(biclusters_exists){
+        for(int i = 0; i < ITERATIONS; i++){
+            // std::cout << data << std::endl;
+
+            update_feature_weight(feature_weight, flag.first, alpha);
+            // print<double>(feature_weight);
+            // std::cout << std::endl;
+
+            // std::cout << "similarity_matrix: ";
+            // print<double>(similarity_matrix);
+            // std::cout << std::endl;
             
-//             std::vector<std::vector<double> > similarity_matrix(n, std::vector<double>(n));
-//             // std::cout << "similarity_matrix: ";
-//             // print<double>(similarity_matrix);
-//             // std::cout << std::endl;
-            
-//             weighted_corr(data, feature_weight, similarity_matrix);                     // compute the similarity matrix
-//             // std::cout << "similarity_matrix: ";
-//             // print<double>(similarity_matrix);
-//             // std::cout << std::endl;
+            weighted_corr(data, feature_weight, similarity_matrix);     // compute the similarity matrix
+            // std::cout << "similarity_matrix: ";
+            // print<double>(similarity_matrix);
+            // std::cout << std::endl;
 
-//             std::vector<double> sorting_vector = dominant_set(similarity_matrix, 1e-04);       // use dominant set approach to find the sorting vector
-//             // std::cout << "sorting_vector: ";
-//             // print<double>(sorting_vector);
-//             // std::cout << std::endl;
+            dominant_set(similarity_matrix, 1e-04, sorting_vector);     // use dominant set approach to find the sorting vector
+            // std::cout << "sorting_vector: ";
+            // print<double>(sorting_vector);
+            // std::cout << std::endl;
 
-//             // std::cout << data << std::endl;
-//             data.weighted_row_sort(sorting_vector);             // sort the rows of matrix data
-//             // std::cout << data << std::endl;
+            // std::cout << data << std::endl;
+            data.weighted_row_sort(sorting_vector);             // sort the rows of matrix data
+            // std::cout << data << std::endl;
 
-//             data.transpose();
-//             row_flag.swap(col_flag);
-//             std::swap(n, m);
-//             // std::cout << "feature_weight: " << feature_weight.size() << " sorting_vector: " << sorting_vector.size() << std::endl;
+            data.transpose();
+            flag.first.swap(flag.second);
+            std::swap(n, m);
+            // std::cout << "feature_weight: " << feature_weight.size() << " sorting_vector: " << sorting_vector.size() << std::endl;
 
-//             feature_weight = sorting_vector;                    //update the feature weight vector
-//             // std::cout << "feature_weight: " << feature_weight.size() << std::endl;
-//         }
+            feature_weight.swap(sorting_vector);                    //update the feature weight vector
+            // std::cout << "feature_weight: " << feature_weight.size() << std::endl;
+            similarity_matrix.swap(alt_similarity_matrix);
+        }
 
-//     //     // [newflag, BI] = find_bicluster(data, threshold);        //extract the bicluster from the sorted data matrix
-//     //     // Output BI;
-//     //     // flag_vector = newflag; // update the flag vector
-//         biclusters_exists = false;
-//     }
-// }
+        biclusters_exists = find_bicluster(data, threshold, bicluster, flag);        //extract the bicluster from the sorted data matrix
+    }
+}
 
 
 int main(){
@@ -265,6 +242,10 @@ int main(){
 
     // weightedCorrBicluster(B, 0.2, 0.1);
     std::cout << B << std::endl;
+    Bicluster bb;
+    weightedCorrBicluster(B, 0.2, 0.01, bb);
+    print(bb.first);
+    print(bb.second);
 
 
     // std::vector<int> index(5);

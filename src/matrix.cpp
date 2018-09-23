@@ -36,20 +36,6 @@ void Matrix::resetIndex(){
 }
 
 
-std::vector<double> Matrix::get_row(int i) const{
-    return this->matrix[this->row_index[i]];
-}
-
-
-std::vector<double> Matrix::get_col(int j) const{
-    std::vector<double> col(this->rows);
-    for(int i = 0; i < rows; i++){
-        col[i] = matrix[i][col_index[j]];
-    }
-    return col;
-}
-
-
 void Matrix::weighted_row_sort(const std::vector<double>& weight){
     std::vector<int> &line_index = (this->is_transposed) ? this->col_index : this->row_index;
 
@@ -78,7 +64,7 @@ void Matrix::weighted_row_sort(const std::vector<double>& weight){
     std::sort(index.begin(), index.end(), 
           [&weight](const int &i, const int &j) { return weight[i] < weight[j]; });
 
-    for(int i = 0; i < line_index.size(); i++){
+    for(unsigned int i = 0; i < line_index.size(); i++){
         // std::cout << "index[" << i << "]=" << index[i] << ". line_index[" << index[i] << "]=" << line_index[index[i]] << std::endl;
         new_index[i] = line_index[index[i]];
     }
