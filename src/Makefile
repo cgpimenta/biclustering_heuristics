@@ -1,6 +1,7 @@
 CXX     	= g++
 CXXFLAGS  	= -Wall -std=c++11
-OBJS    	= cheng_church.o readcsv.o main.o util.o
+OBJS    	= cheng_church.o teng_chan.o matrix.o readcsv.o main.o util.o
+
 
 TARGET	= proj
 
@@ -12,7 +13,11 @@ $(TARGET): $(OBJS)
 
 main.o: main.cpp readcsv.h cheng_church.h
 
+teng_chan.o: teng_chan.cpp teng_chan.h matrix.h
+
 cheng_church.o: cheng_church.cpp cheng_church.h
+
+matri.o: matrix.cpp matrix.h
 
 readcsv.o: readcsv.cpp readcsv.h util.h
 
