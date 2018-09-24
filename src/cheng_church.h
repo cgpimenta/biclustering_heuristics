@@ -43,22 +43,9 @@ public:
     }
 };
 
-std::vector<Solution> runChengChurch(Matrix &dataMatrix, double maxResidue, double threshold, int numClusters);
-Solution singleNodeDeletion(Matrix &dataMatrix, Solution &sol, double maxResidue);
-Solution multipleNodeDeletion(Matrix &dataMatrix, Solution &sol, double maxResidue, double threshold);
-Solution nodeAdition(Matrix &dataMatrix, Solution &sol);
+typedef std::pair<std::vector<int>, std::vector<int> > Bicluster;
 
-void initSolution(Solution &sol, Matrix &dataMatrix);
-double rcResidue(Matrix &dataMatrix, int idx, Solution &sol, std::string dim);
-double residueScore(Matrix &dataMatrix, Solution &sol);
-double getRCMean(Matrix &dataMatrix, int idx, Solution &sol, std::string dim);
-double getMatrixMean(Matrix &dataMatrix, Solution &sol);
-void removeRCbyResidue(Matrix &dataMatrix, Solution &sol);
-void removeRC(Solution &sol, int idx, std::string dim);
-double rowResidueAux(Matrix &dataMatrix, int idx, Solution &sol);
-void addInvRow(Matrix &dataMatrix, int row, Solution &sol);
-void replaceElements(Matrix &dataMatrix, Solution &solAux, Solution &solB, pdd matrixMaxMin);
-pdd getMatrixMaxMin(Matrix &dataMatrix);
-void printBiclusters(std::vector<Solution> &solutions);
+std::vector<Bicluster> runChengChurch(Matrix &dataMatrix, double maxResidue, double threshold, int numClusters);
+void printBiclusters(std::vector<Bicluster> &biclusters);
 
 #endif

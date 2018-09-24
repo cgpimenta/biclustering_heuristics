@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
     int numClusters = 4;
 
     // Cheng & Church:
-    std::vector<Solution> sols = runChengChurch(dataMatrix, maxResidue, threshold, numClusters);
+    std::vector<Bicluster> sols = runChengChurch(dataMatrix, maxResidue, threshold, numClusters);
     printBiclusters(sols);
     
     // Teng & Chan:
