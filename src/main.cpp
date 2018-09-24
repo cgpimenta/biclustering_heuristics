@@ -16,14 +16,14 @@ int main(int argc, char **argv) {
 
     // Cheng & Church:
     std::vector<Bicluster> sols = runChengChurch(dataMatrix, maxResidue, threshold, numClusters);
-    // printBiclusters(sols);
+    printBiclusters(sols);
     
     // Teng & Chan:
     std::vector<Bicluster> biclusters = runTengChan(dataMatrix, 0.2, threshold);
-    // printBiclusters(biclusters);
+    printBiclusters(biclusters);
 
-    
-    // Constructive heuristic 1:
+
+   // Constructive heuristic 1:
     // TODO
     
     // Constructive heuristic 2:
