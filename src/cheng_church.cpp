@@ -20,7 +20,7 @@ void addInvRow(Matrix &dataMatrix, int row, Solution &sol);
 void replaceElements(Matrix &dataMatrix, Solution &solAux, Solution &solB, pdd matrixMaxMin);
 pdd getMatrixMaxMin(Matrix &dataMatrix);
 
-/* ------------------------------------------- */
+/* ---------- Exported functions ---------- */
 
 std::vector<Bicluster> runChengChurch(Matrix &dataMatrix, double maxResidue, double threshold, int numClusters) {
     std::vector<Solution> solAux = runChengChurchAux(dataMatrix, maxResidue, threshold, numClusters);
@@ -34,7 +34,7 @@ std::vector<Bicluster> runChengChurch(Matrix &dataMatrix, double maxResidue, dou
     return solutions;
 }
 
-/* ---------- Exported functions ---------- */
+/* ---------- Other functions ---------- */
 
 std::vector<Solution> runChengChurchAux(Matrix &dataMatrix, double maxResidue, double threshold, int numClusters) {
     // Get max and min value in matrix:
@@ -77,39 +77,6 @@ std::vector<Solution> runChengChurchAux(Matrix &dataMatrix, double maxResidue, d
 
     return solutions;
 }
-
-void printBiclusters(std::vector<Bicluster> &biclusters) {
-    unsigned int i = 1;
-
-    for (Bicluster &bc: biclusters) {
-        std::cout << "Bicluster " << i << "\n\n";
-
-        // Print number of rows:
-        std::cout << "Number of rows: " << bc.first.size() << std::endl;
-        
-        // Print rows:
-        // std::cout << "Rows:" << std::endl;
-        // for (int &row: bc.first) {
-        //     std::cout << row << " ";
-        // } std::cout << std::endl;
-
-        // Print number of cols:
-        std::cout << "Number of columns: " << bc.second.size() << std::endl;
-
-        // Print columns:
-        // std::cout << "Columns:" << std::endl;
-        // for (int &col: bc.second) {
-        //     std::cout << col << " ";
-        // } std::cout << std::endl;
-        
-
-        std::cout << "\n--------------------------\n\n";
-
-        i++;
-    }
-}
-
-/* ---------- Other functions ---------- */
 
 Solution singleNodeDeletion(Matrix &dataMatrix, Solution &sol, double maxResidue) {
     Solution solAux = sol;

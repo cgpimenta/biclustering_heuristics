@@ -3,8 +3,8 @@
 
 #include <vector>
 #include "matrix.h"
+#include "bicluster.h"
 
-typedef std::pair<std::vector<int>, std::vector<int> > Bicluster;
 
 void weightedCorrBicluster(MatrixT& data, double alpha, double threshold, std::vector<Bicluster>&);
 std::vector<Bicluster> runTengChan(std::vector<std::vector<double> >& dataMatrix, double alpha, double threshold);

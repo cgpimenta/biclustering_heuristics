@@ -4,6 +4,8 @@
 #include <vector>
 #include <ostream>
 
+typedef std::vector<std::vector<double> > Matrix;
+
 
 class MatrixT{
 private:

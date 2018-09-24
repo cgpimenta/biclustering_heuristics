@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "readcsv.h"
+#include "bicluster.h"
 #include "cheng_church.h"
 #include "teng_chan.h"
 
@@ -15,21 +16,11 @@ int main(int argc, char **argv) {
 
     // Cheng & Church:
     std::vector<Bicluster> sols = runChengChurch(dataMatrix, maxResidue, threshold, numClusters);
-    printBiclusters(sols);
+    // printBiclusters(sols);
     
     // Teng & Chan:
     std::vector<Bicluster> biclusters = runTengChan(dataMatrix, 0.2, threshold);
-    for(auto &bi : biclusters){
-        for(auto &row: bi.first){
-            std::cout << row << ' ';
-        }
-        std::cout << std::endl;
-        for(auto &row: bi.second){
-            std::cout << row << ' ';
-        }
-        std::cout << std::endl;
-        std::cout << std::endl;
-    }
+    // printBiclusters(biclusters);
 
     
     // Constructive heuristic 1:
