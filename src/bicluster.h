@@ -9,6 +9,7 @@
 struct Bicluster{
     std::vector<int> rows;
     std::vector<int> cols;
+    double variance;
 
     Bicluster();
     Bicluster(const std::vector<int>&, const std::vector<int>&);
@@ -16,4 +17,6 @@ struct Bicluster{
 };
 
 void printBiclusters(std::vector<Bicluster>& biclusters);
+double getBiclusterVariance(Bicluster &bicluster, std::vector<std::vector<double> >& dataMatrix);
+
 #endif

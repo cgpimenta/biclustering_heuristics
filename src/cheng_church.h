@@ -45,6 +45,6 @@ public:
 };
 
 
-std::vector<Bicluster> runChengChurch(Matrix &dataMatrix, double maxResidue, double threshold, int numClusters);
+std::vector<Bicluster> runChengChurch(Matrix dataMatrix, double maxResidue, double threshold, int numClusters);
 
 #endif

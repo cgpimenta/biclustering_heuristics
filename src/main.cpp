@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
     std::vector<std::vector<double> > dataMatrix = readCSV(inputFile, ',');
 
     double maxResidue = 0.005;
-    double threshold = 2.0;
+    double threshold = 1.05;
     int numClusters = 4;
 
     std::cout << "Cheng & Church\n";

@@ -22,14 +22,18 @@ pdd getMatrixMaxMin(Matrix &dataMatrix);
 
 /* ---------- Exported functions ---------- */
 
-std::vector<Bicluster> runChengChurch(Matrix &dataMatrix, double maxResidue, double threshold, int numClusters) {
+std::vector<Bicluster> runChengChurch(Matrix dataMatrix, double maxResidue, double threshold, int numClusters) {
     std::vector<Solution> solAux = runChengChurchAux(dataMatrix, maxResidue, threshold, numClusters);
 
     std::vector<Bicluster> solutions;
     for (const auto &sol: solAux) {
         Bicluster bi(sol.rows, sol.cols);
+        bi.variance = getBiclusterVariance(bi, dataMatrix);
         solutions.push_back(bi);
     }
+
+    // std::cout << "Variance: " << getBiclusterVariance(solutions[0], dataMatrix) << std::endl;;
+    // std::cout << "MSR: " << solAux[0].residue << std::endl;;
 
     return solutions;
 }
