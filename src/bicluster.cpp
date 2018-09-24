@@ -1,4 +1,42 @@
 #include "bicluster.h"
+#include <iostream>
+
+
+Bicluster::Bicluster(){
+    this->rows = std::vector<int>();
+    this->cols = std::vector<int>();
+}
+
+
+
+Bicluster::Bicluster(const std::vector<int>& rows, const std::vector<int>& cols){
+    this->rows = std::vector<int>(rows);
+    this->cols = std::vector<int>(cols);
+}
+
+
+
+std::ostream& operator<<(std::ostream& out, const Bicluster& bicluster){
+        // Print number of rows:
+        out << "Number of rows: " << bicluster.rows.size() << std::endl;
+        
+        // Print rows:
+        // out << "Rows:" << std::endl;
+        // for (const int &row: bicluster.rows) {
+        //     out << row << " ";
+        // } out << std::endl;
+
+        // Print number of cols:
+        out << "Number of columns: " << bicluster.cols.size() << std::endl;
+
+        // Print columns:
+        // out << "Columns:" << std::endl;
+        // for (const int &col: bicluster.cols) {
+        //     out << col << " ";
+        // } out << std::endl;
+
+    return out;
+}
 
 
 void printBiclusters(std::vector<Bicluster>& biclusters) {
@@ -7,25 +45,7 @@ void printBiclusters(std::vector<Bicluster>& biclusters) {
     for (Bicluster &bc: biclusters) {
         std::cout << "Bicluster " << i << "\n\n";
 
-        // Print number of rows:
-        std::cout << "Number of rows: " << bc.first.size() << std::endl;
-        
-        // Print rows:
-        // std::cout << "Rows:" << std::endl;
-        // for (int &row: bc.first) {
-        //     std::cout << row << " ";
-        // } std::cout << std::endl;
-
-        // Print number of cols:
-        std::cout << "Number of columns: " << bc.second.size() << std::endl;
-
-        // Print columns:
-        // std::cout << "Columns:" << std::endl;
-        // for (int &col: bc.second) {
-        //     std::cout << col << " ";
-        // } std::cout << std::endl;
-        
-
+        std::cout << bc;
         std::cout << "\n--------------------------\n\n";
 
         i++;

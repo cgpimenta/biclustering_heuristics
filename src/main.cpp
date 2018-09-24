@@ -14,13 +14,19 @@ int main(int argc, char **argv) {
     double threshold = 2.0;
     int numClusters = 4;
 
+    std::cout << "Cheng & Church\n";
     // Cheng & Church:
     std::vector<Bicluster> sols = runChengChurch(dataMatrix, maxResidue, threshold, numClusters);
     printBiclusters(sols);
-    
+    std::cout << "Done Cheng & Church\n";
+    std::cout << "Found " << sols.size() << " biclusters." << std::endl;
+
+    std::cout << "Teng & Chan\n";
     // Teng & Chan:
-    std::vector<Bicluster> biclusters = runTengChan(dataMatrix, 0.2, threshold);
+    std::vector<Bicluster> biclusters = runTengChan(dataMatrix, 0.2, 0.5, numClusters);
     printBiclusters(biclusters);
+    std::cout << "Done Teng & Chan\n";
+    std::cout << "Found " << biclusters.size() << " biclusters." << std::endl;
 
 
    // Constructive heuristic 1:

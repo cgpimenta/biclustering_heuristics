@@ -6,7 +6,7 @@
 #include "bicluster.h"
 
 
-void weightedCorrBicluster(MatrixT& data, double alpha, double threshold, std::vector<Bicluster>&);
-std::vector<Bicluster> runTengChan(std::vector<std::vector<double> >& dataMatrix, double alpha, double threshold);
+void weightedCorrBicluster(MatrixT& data, double alpha, double threshold, std::vector<Bicluster>&, int max);
+std::vector<Bicluster> runTengChan(std::vector<std::vector<double> >& dataMatrix, double alpha, double threshold, int max);
 
 #endif
