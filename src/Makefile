@@ -11,7 +11,7 @@ default: $(TARGET)
 $(TARGET): $(OBJS) 
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $@
 
-main.o: main.cpp readcsv.h cheng_church.h
+main.o: main.cpp readcsv.h cheng_church.h teng_chan.h
 
 teng_chan.o: teng_chan.cpp teng_chan.h matrix.h
 

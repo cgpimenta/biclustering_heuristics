@@ -38,7 +38,7 @@ double weighted_correlation_coefficient(int a, int b, const std::vector<double>&
 }
 
 
-void corr_coeff_matrix(const Matrix& data, const std::vector<double>& weight, std::vector<double>& corr_coeff, std::vector<std::vector<double> >& corr_coeff2){
+void corr_coeff_matrix(const MatrixT& data, const std::vector<double>& weight, std::vector<double>& corr_coeff, std::vector<std::vector<double> >& corr_coeff2){
     std::pair<int, int> dimension = data.dimension();
 
     for(int i = 0; i < dimension.first; i++){
@@ -54,7 +54,7 @@ void corr_coeff_matrix(const Matrix& data, const std::vector<double>& weight, st
 }
 
 
-void weighted_corr(const Matrix& data, const std::vector<double>& feature_weight, std::vector<std::vector<double> >& similarity_matrix){
+void weighted_corr(const MatrixT& data, const std::vector<double>& feature_weight, std::vector<std::vector<double> >& similarity_matrix){
     std::pair<int, int> dimension = data.dimension();
 
     std::vector<double> corr_coeff(dimension.first);
@@ -107,7 +107,7 @@ void dominant_set(const std::vector<std::vector<double> >& A, double epsilon, st
 
 
 
-bool find_bicluster(Matrix& data, double threshold, Bicluster& bicluster, Flags& flag){
+bool find_bicluster(MatrixT& data, double threshold, Bicluster& bicluster, Flags& flag){
 
     std::pair<int, int> dimension = data.dimension();
     bool found = false;
@@ -153,7 +153,7 @@ bool find_bicluster(Matrix& data, double threshold, Bicluster& bicluster, Flags&
 
 
 // Input: the initial gene expression data matrix data, f, a and the Threshold,
-void weightedCorrBicluster(Matrix& data, double alpha, double threshold, Bicluster& bicluster){
+void weightedCorrBicluster(MatrixT& data, double alpha, double threshold, std::vector<Bicluster>& biclusters){
     bool biclusters_exists = true;
     Flags flag;
 
@@ -188,7 +188,15 @@ void weightedCorrBicluster(Matrix& data, double alpha, double threshold, Biclust
             feature_weight.swap(sorting_vector);                    //update the feature weight vector
             similarity_matrix.swap(alt_similarity_matrix);
         }
-
+        Bicluster bicluster;
         biclusters_exists = find_bicluster(data, threshold, bicluster, flag);        //extract the bicluster from the sorted data matrix
+        biclusters.push_back(bicluster);
     }
+}
+
+std::vector<Bicluster> runTengChan(std::vector<std::vector<double> >& dataMatrix, double alpha, double threshold){
+    std::vector<Bicluster> biclusters;
+    MatrixT data(dataMatrix);
+    weightedCorrBicluster(data, alpha, threshold, biclusters);
+    return biclusters;
 }

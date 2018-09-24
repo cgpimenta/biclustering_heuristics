@@ -5,7 +5,7 @@
 #include <ostream>
 
 
-class Matrix{
+class MatrixT{
 private:
     std::vector<std::vector<double> > matrix;
     std::vector<int> row_index;
@@ -14,8 +14,8 @@ private:
     int rows, cols;
 
 public:
-    Matrix(int rows, int cols);
-    Matrix(const std::vector<std::vector<double> >&);
+    MatrixT(int rows, int cols);
+    MatrixT(const std::vector<std::vector<double> >&);
 
     inline unsigned int size() { return this->matrix.size(); }
 
@@ -50,7 +50,7 @@ public:
     void weighted_row_sort(const std::vector<double>& weight);
 
 
-    friend std::ostream& operator<<(std::ostream&, const Matrix&);
+    friend std::ostream& operator<<(std::ostream&, const MatrixT&);
 };
 
 

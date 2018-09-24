@@ -1,10 +1,9 @@
 #include "matrix.h"
 #include <numeric>
 #include <algorithm>
-#include <iostream>
 
 
-Matrix::Matrix(int rows, int cols){
+MatrixT::MatrixT(int rows, int cols){
     this->matrix = std::vector<std::vector<double>>(rows, std::vector<double>(cols));
     this->is_transposed = false;
     this->rows = rows;
@@ -17,7 +16,7 @@ Matrix::Matrix(int rows, int cols){
 }
 
 
-Matrix::Matrix(const std::vector<std::vector<double> > &matrix){
+MatrixT::MatrixT(const std::vector<std::vector<double> > &matrix){
     this->matrix = matrix;
     this->is_transposed = false;
     this->rows = matrix.size();
@@ -30,13 +29,13 @@ Matrix::Matrix(const std::vector<std::vector<double> > &matrix){
 }
 
 
-void Matrix::resetIndex(){
+void MatrixT::resetIndex(){
     std::iota(this->row_index.begin(), this->row_index.end(), 0);
     std::iota(this->col_index.begin(), this->col_index.end(), 0);
 }
 
 
-void Matrix::weighted_row_sort(const std::vector<double>& weight){
+void MatrixT::weighted_row_sort(const std::vector<double>& weight){
     std::vector<int> &line_index = (this->is_transposed) ? this->col_index : this->row_index;
 
     std::vector<int> index(line_index.size());
@@ -73,7 +72,7 @@ void Matrix::weighted_row_sort(const std::vector<double>& weight){
 }
 
 
-std::ostream& operator<<(std::ostream& out, const Matrix& m){
+std::ostream& operator<<(std::ostream& out, const MatrixT& m){
     int first_size = (m.is_transposed) ? m.cols : m.rows;
     int second_size = (m.is_transposed) ? m.rows : m.cols;
 

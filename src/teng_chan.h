@@ -6,6 +6,7 @@
 
 typedef std::pair<std::vector<int>, std::vector<int> > Bicluster;
 
-void weightedCorrBicluster(Matrix& data, double alpha, double threshold, Bicluster& bicluster);
+void weightedCorrBicluster(MatrixT& data, double alpha, double threshold, std::vector<Bicluster>&);
+std::vector<Bicluster> runTengChan(std::vector<std::vector<double> >& dataMatrix, double alpha, double threshold);
 
 #endif
