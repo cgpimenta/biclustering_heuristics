@@ -4,7 +4,39 @@
 #include <random>
 #include "cheng_church.h"
 
-std::vector<Solution> runChengChurch(Matrix &dataMatrix, double maxResidue, double threshold, int numClusters) {
+std::vector<Solution> runChengChurchAux(Matrix &dataMatrix, double maxResidue, double threshold, int numClusters);
+Solution singleNodeDeletion(Matrix &dataMatrix, Solution &sol, double maxResidue);
+Solution multipleNodeDeletion(Matrix &dataMatrix, Solution &sol, double maxResidue, double threshold);
+Solution nodeAdition(Matrix &dataMatrix, Solution &sol);
+void initSolution(Solution &sol, Matrix &dataMatrix);
+double rcResidue(Matrix &dataMatrix, int idx, Solution &sol, std::string dim);
+double residueScore(Matrix &dataMatrix, Solution &sol);
+double getRCMean(Matrix &dataMatrix, int idx, Solution &sol, std::string dim);
+double getMatrixMean(Matrix &dataMatrix, Solution &sol);
+void removeRCbyResidue(Matrix &dataMatrix, Solution &sol);
+void removeRC(Solution &sol, int idx, std::string dim);
+double rowResidueAux(Matrix &dataMatrix, int idx, Solution &sol);
+void addInvRow(Matrix &dataMatrix, int row, Solution &sol);
+void replaceElements(Matrix &dataMatrix, Solution &solAux, Solution &solB, pdd matrixMaxMin);
+pdd getMatrixMaxMin(Matrix &dataMatrix);
+
+/* ------------------------------------------- */
+
+std::vector<Bicluster> runChengChurch(Matrix &dataMatrix, double maxResidue, double threshold, int numClusters) {
+    std::vector<Solution> solAux = runChengChurchAux(dataMatrix, maxResidue, threshold, numClusters);
+
+    std::vector<Bicluster> solutions;
+    for (const auto &sol: solAux) {
+        Bicluster bi(sol.rows, sol.cols);
+        solutions.push_back(bi);
+    }
+
+    return solutions;
+}
+
+/* ---------- Exported functions ---------- */
+
+std::vector<Solution> runChengChurchAux(Matrix &dataMatrix, double maxResidue, double threshold, int numClusters) {
     // Get max and min value in matrix:
     pdd matrixMaxMin = getMatrixMaxMin(dataMatrix);
     std::cout << "min: " << matrixMaxMin.first << std::endl;
@@ -45,6 +77,39 @@ std::vector<Solution> runChengChurch(Matrix &dataMatrix, double maxResidue, doub
 
     return solutions;
 }
+
+void printBiclusters(std::vector<Bicluster> &biclusters) {
+    unsigned int i = 1;
+
+    for (Bicluster &bc: biclusters) {
+        std::cout << "Bicluster " << i << "\n\n";
+
+        // Print number of rows:
+        std::cout << "Number of rows: " << bc.first.size() << std::endl;
+        
+        // Print rows:
+        // std::cout << "Rows:" << std::endl;
+        // for (int &row: bc.first) {
+        //     std::cout << row << " ";
+        // } std::cout << std::endl;
+
+        // Print number of cols:
+        std::cout << "Number of columns: " << bc.second.size() << std::endl;
+
+        // Print columns:
+        // std::cout << "Columns:" << std::endl;
+        // for (int &col: bc.second) {
+        //     std::cout << col << " ";
+        // } std::cout << std::endl;
+        
+
+        std::cout << "\n--------------------------\n\n";
+
+        i++;
+    }
+}
+
+/* ---------- Other functions ---------- */
 
 Solution singleNodeDeletion(Matrix &dataMatrix, Solution &sol, double maxResidue) {
     Solution solAux = sol;
@@ -395,41 +460,4 @@ std::pair<double, double> getMatrixMaxMin(Matrix &dataMatrix) {
     }
 
     return std::pair<double, double>(minVal, maxVal);
-}
-
-void printBiclusters(std::vector<Solution> &solutions) {
-    unsigned int i = 1;
-
-    for (Solution &sol: solutions) {
-        std::cout << "Bicluster " << i << "\n\n";
-
-        // Print number of rows:
-        std::cout << "Number of rows: " << sol.rows.size() << std::endl;
-        
-        // Print rows:
-        // std::cout << "Rows:" << std::endl;
-        // for (int &row: sol.rows) {
-        //     std::cout << row << " ";
-        // } std::cout << std::endl;
-
-        // Print number of rows:
-        std::cout << "Number of columns: " << sol.cols.size() << std::endl;
-
-        // Print columns:
-        // std::cout << "Columns:" << std::endl;
-        // for (int &col: sol.cols) {
-        //     std::cout << col << " ";
-        // } std::cout << std::endl;
-        
-        // Print mean squared residue score:
-        std::cout << "Residue score: " << sol.residue << std::endl;
-
-        // Quality index (area / residue)
-        double quality = (sol.rows.size() * sol.cols.size()) / sol.residue;
-        std::cout << "Qaulity index: " << quality << std::endl;
-
-        std::cout << "\n--------------------------\n\n";
-
-        i++;
-    }
 }
