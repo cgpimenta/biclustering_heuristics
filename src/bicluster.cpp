@@ -3,8 +3,8 @@
 
 
 Bicluster::Bicluster(){
-    this->rows = std::vector<int>();
-    this->cols = std::vector<int>();
+    // this->rows = std::vector<int>();
+    // this->cols = std::vector<int>();
     this->variance = 0;
 }
 
