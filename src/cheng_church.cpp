@@ -6,7 +6,7 @@
 
 std::vector<Solution> runChengChurchAux(Matrix &dataMatrix, double maxResidue, double threshold, int numClusters);
 Solution singleNodeDeletion(Matrix &dataMatrix, Solution &sol, double maxResidue);
-Solution multipleNodeDeletion(Matrix &dataMatrix, Solution &sol, double maxResidue, double threshold);
+std::pair<Solution, bool> multipleNodeDeletion(Matrix &dataMatrix, Solution &sol, double maxResidue, double threshold);
 Solution nodeAdition(Matrix &dataMatrix, Solution &sol);
 void initSolution(Solution &sol, Matrix &dataMatrix);
 double rcResidue(Matrix &dataMatrix, int idx, Solution &sol, std::string dim);
@@ -41,6 +41,9 @@ std::vector<Bicluster> runChengChurch(Matrix dataMatrix, double maxResidue, doub
 /* ---------- Other functions ---------- */
 
 std::vector<Solution> runChengChurchAux(Matrix &dataMatrix, double maxResidue, double threshold, int numClusters) {
+    // Save original matrix:
+    Matrix originalMatrix = dataMatrix;
+
     // Get max and min value in matrix:
     pdd matrixMaxMin = getMatrixMaxMin(dataMatrix);
     std::cout << "min: " << matrixMaxMin.first << std::endl;
@@ -50,6 +53,9 @@ std::vector<Solution> runChengChurchAux(Matrix &dataMatrix, double maxResidue, d
     std::vector<Solution> solutions(numClusters);
 
     Solution solA, solAux, solB, solC, solD;
+    std::pair<Solution, bool> multNodeDelResult;
+    bool removedInMultNodeDel;
+
     initSolution(solA, dataMatrix);
 
     solAux = solA;
@@ -59,14 +65,17 @@ std::vector<Solution> runChengChurchAux(Matrix &dataMatrix, double maxResidue, d
     std::cout << "Num cols = " << solA.cols.size() << "\n-----------------------\n";
 
     for (int i = 0; i < numClusters; i++) {
-
-        solB = multipleNodeDeletion(dataMatrix, solAux, maxResidue, threshold);  // Algorithm 2
+        multNodeDelResult = multipleNodeDeletion(dataMatrix, solAux, maxResidue, threshold);  // Algorithm 2
+        solB = multNodeDelResult.first;
+        removedInMultNodeDel = multNodeDelResult.second;
         
         solC = solB;
-        solC = singleNodeDeletion(dataMatrix, solB, maxResidue);                 // Algorithm 1
+        if (!removedInMultNodeDel) {
+            solC = singleNodeDeletion(dataMatrix, solB, maxResidue);                 // Algorithm 1
+        }
         
         solD = solC;
-        solD = nodeAdition(dataMatrix, solC);                                    // Algorithm 3
+        solD = nodeAdition(originalMatrix, solC);                                    // Algorithm 3
 
         solD.residue = residueScore(dataMatrix, solD);
 
@@ -98,9 +107,6 @@ Solution singleNodeDeletion(Matrix &dataMatrix, Solution &sol, double maxResidue
         solAux.colMeans[col] = getRCMean(dataMatrix, col, solAux, "col");
     }
 
-    // Get mean of the matrix:
-    solAux.matrixMean = getMatrixMean(dataMatrix, solAux);
-
     // Get mean squared residue score:
     sqResidue = residueScore(dataMatrix, solAux);
 
@@ -113,13 +119,14 @@ Solution singleNodeDeletion(Matrix &dataMatrix, Solution &sol, double maxResidue
     return solAux;
 }
 
-Solution multipleNodeDeletion(Matrix &dataMatrix, Solution &sol, double maxResidue, double threshold) {
+std::pair<Solution, bool> multipleNodeDeletion(Matrix &dataMatrix, Solution &sol, double maxResidue, double threshold) {
     Solution solAux = sol;
+    bool removed = false;
 
     unsigned int minSize = 50;
 
     if (solAux.rows.size() < minSize || solAux.cols.size() < minSize) {
-        return solAux;
+        return std::pair<Solution, bool>(solAux, false);
     }
 
     solAux.matrixMean = getMatrixMean(dataMatrix, solAux);
@@ -135,37 +142,36 @@ Solution multipleNodeDeletion(Matrix &dataMatrix, Solution &sol, double maxResid
         solAux.colMeans[col] = getRCMean(dataMatrix, col, solAux, "col");
     }
 
-    // Get mean of the matrix:
-    solAux.matrixMean = getMatrixMean(dataMatrix, solAux);
-
     // Get mean squared residue score:
     sqResidue = residueScore(dataMatrix, solAux);
 
     // If bicluster is already good enough, return:
-    if (sqResidue <= maxResidue) return solAux;
+    if (sqResidue <= maxResidue) return std::pair<Solution, bool>(solAux, false);
 
-    // Delete rows with residue >= threshold * matrix_residue
+    // Delete rows with residue > threshold * matrix_residue
     for (int &row: solAux.rows) {
         if (rcResidue(dataMatrix, row, solAux, "row") > threshold * sqResidue) {
             removeRC(solAux, row, "row");
+            removed = true;
         }
     }
 
     // Recompute column and matrix means and residue score:
+    solAux.matrixMean = getMatrixMean(dataMatrix, solAux);
     for (int &col: solAux.cols) {
         solAux.colMeans[col] = getRCMean(dataMatrix, col, solAux, "col");
     }
-    solAux.matrixMean = getMatrixMean(dataMatrix, solAux);
     sqResidue = residueScore(dataMatrix, solAux);
 
-    // Delete columns with residue >= threshold * matrix_residue
+    // Delete columns with residue > threshold * matrix_residue
     for (int &col: solAux.cols) {
         if (rcResidue(dataMatrix, col, solAux, "col") > threshold * sqResidue) {
             removeRC(solAux, col, "col");
+            removed = true;
         }
     }
 
-    return solAux;
+    return std::pair<Solution, bool>(solAux, removed);
 }
 
 Solution nodeAdition(Matrix &dataMatrix, Solution &sol) {
@@ -184,9 +190,6 @@ Solution nodeAdition(Matrix &dataMatrix, Solution &sol) {
         solAux.colMeans[col] = getRCMean(dataMatrix, col, solAux, "col");
     }
 
-    // Get mean of the matrix:
-    solAux.matrixMean = getMatrixMean(dataMatrix, solAux);
-
     // Get mean squared residue score:
     sqResidue = residueScore(dataMatrix, solAux);
 
@@ -201,10 +204,10 @@ Solution nodeAdition(Matrix &dataMatrix, Solution &sol) {
     }
 
     // Recompute column and matrix means and residue score:
+    solAux.matrixMean = getMatrixMean(dataMatrix, solAux);
     for (int &col: solAux.cols) {
         solAux.colMeans[col] = getRCMean(dataMatrix, col, solAux, "col");
     }
-    solAux.matrixMean = getMatrixMean(dataMatrix, solAux);
     sqResidue = residueScore(dataMatrix, solAux);
 
     // For each row not in solution, add its inverse if 
@@ -240,6 +243,8 @@ void initSolution(Solution &sol, Matrix &dataMatrix) {
 double rcResidue(Matrix &dataMatrix, int idx, Solution &sol, std::string dim) {
     double sqResidue = 0.0;
     double residue, rowMean, colMean;
+
+    sol.matrixMean = getMatrixMean(dataMatrix, sol);
 
     if (dim == "row" || dim == "rows") {
         rowMean = sol.rowMeans[idx];
