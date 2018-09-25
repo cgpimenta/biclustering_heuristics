@@ -49,10 +49,10 @@ std::ostream& operator<<(std::ostream& out, const Bicluster& bicluster){
 }
 
 
-void printBiclusters(std::vector<Bicluster>& biclusters) {
+void printBiclusters(const std::vector<Bicluster>& biclusters) {
     unsigned int i = 1;
 
-    for (Bicluster &bc: biclusters) {
+    for (const Bicluster &bc: biclusters) {
         std::cout << "Bicluster " << i << "\n\n";
 
         std::cout << bc;
@@ -62,7 +62,7 @@ void printBiclusters(std::vector<Bicluster>& biclusters) {
     }
 }
 
-double getBiclusterMean(Bicluster &bicluster, std::vector<std::vector<double> >& dataMatrix) {
+double getBiclusterMean(const Bicluster &bicluster, const std::vector<std::vector<double> >& dataMatrix) {
     int numRows = bicluster.rows.size();
     int numCols = bicluster.cols.size();
 
@@ -77,7 +77,7 @@ double getBiclusterMean(Bicluster &bicluster, std::vector<std::vector<double> >&
     return sum / (numRows + numCols);
 }
 
-double getBiclusterVariance(Bicluster &bicluster, std::vector<std::vector<double> >& dataMatrix) {
+double getBiclusterVariance(const Bicluster &bicluster, const std::vector<std::vector<double> >& dataMatrix) {
     int numRows = bicluster.rows.size();
     int numCols = bicluster.cols.size();
 

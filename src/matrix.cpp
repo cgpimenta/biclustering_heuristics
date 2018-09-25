@@ -72,6 +72,11 @@ void MatrixT::weighted_row_sort(const std::vector<double>& weight){
 }
 
 
+std::vector<std::vector<double> >& MatrixT::getRawMatrix(){
+    return this->matrix;
+}
+
+
 std::ostream& operator<<(std::ostream& out, const MatrixT& m){
     int first_size = (m.is_transposed) ? m.cols : m.rows;
     int second_size = (m.is_transposed) ? m.rows : m.cols;
