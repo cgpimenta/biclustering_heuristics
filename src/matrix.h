@@ -46,6 +46,7 @@ public:
             matrix[row_index[i]][col_index[j]];
     }
 
+    std::vector<std::vector<double> >& getRawMatrix();
 
     void resetIndex();
 

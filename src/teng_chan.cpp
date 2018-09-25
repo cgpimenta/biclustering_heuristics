@@ -155,7 +155,7 @@ bool find_bicluster(MatrixT& data, double threshold, Bicluster& bicluster, Flags
 
 
 // Input: the initial gene expression data matrix data, f, a and the Threshold,
-void weightedCorrBicluster(MatrixT& data, double alpha, double threshold, std::vector<Bicluster>& biclusters, int max, std::vector<std::vector<double> >& dataMatrix){
+void weightedCorrBicluster(MatrixT& data, double alpha, double threshold, std::vector<Bicluster>& biclusters, int max){
     bool biclusters_exists = true;
     Flags flag;
 
@@ -193,14 +193,14 @@ void weightedCorrBicluster(MatrixT& data, double alpha, double threshold, std::v
         }
         Bicluster bicluster;
         biclusters_exists = find_bicluster(data, threshold, bicluster, flag);
-        bicluster.variance = getBiclusterVariance(bicluster, dataMatrix);        //extract the bicluster from the sorted data matrix
+        bicluster.variance = getBiclusterVariance(bicluster, data.getRawMatrix());        //extract the bicluster from the sorted data matrix
         biclusters.push_back(bicluster);
     }
 }
 
-std::vector<Bicluster> runTengChan(std::vector<std::vector<double> >& dataMatrix, double alpha, double threshold, int max){
+std::vector<Bicluster> runTengChan(const std::vector<std::vector<double> >& dataMatrix, double alpha, double threshold, int max){
     std::vector<Bicluster> biclusters;
     MatrixT data(dataMatrix);
-    weightedCorrBicluster(data, alpha, threshold, biclusters, max, dataMatrix);
+    weightedCorrBicluster(data, alpha, threshold, biclusters, max);
     return biclusters;
 }

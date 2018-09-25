@@ -16,7 +16,7 @@ struct Bicluster{
     friend std::ostream& operator<<(std::ostream&, const Bicluster&);
 };
 
-void printBiclusters(std::vector<Bicluster>& biclusters);
-double getBiclusterVariance(Bicluster &bicluster, std::vector<std::vector<double> >& dataMatrix);
+void printBiclusters(const std::vector<Bicluster>& biclusters);
+double getBiclusterVariance(const Bicluster &bicluster, const std::vector<std::vector<double> >& dataMatrix);
 
 #endif
