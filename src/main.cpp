@@ -15,27 +15,27 @@ int main(int argc, char **argv) {
     double threshold = 1.05;
     int numClusters = 4;
 
-    // std::cout << "Cheng & Church\n";
-    // // Cheng & Church:
-    // std::vector<Bicluster> sols = runChengChurch(dataMatrix, maxResidue, threshold, numClusters);
-    // printBiclusters(sols);
-    // std::cout << "Done Cheng & Church\n";
-    // std::cout << "Found " << sols.size() << " biclusters." << std::endl;
+    std::cout << "Cheng & Church\n";
+    // Cheng & Church:
+    std::vector<Bicluster> sols = runChengChurch(dataMatrix, maxResidue, threshold, numClusters);
+    printBiclusters(sols);
+    std::cout << "Done Cheng & Church\n";
+    std::cout << "Found " << sols.size() << " biclusters." << std::endl;
 
-    // std::cout << "Teng & Chan\n";
-    // // Teng & Chan:
-    // std::vector<Bicluster> biclusters = runTengChan(dataMatrix, 0.2, 0.5, numClusters);
-    // printBiclusters(biclusters);
-    // std::cout << "Done Teng & Chan\n";
-    // std::cout << "Found " << biclusters.size() << " biclusters." << std::endl;
+    std::cout << "Teng & Chan\n";
+    // Teng & Chan:
+    std::vector<Bicluster> biclusters = runTengChan(dataMatrix, 0.2, 0.5, numClusters);
+    printBiclusters(biclusters);
+    std::cout << "Done Teng & Chan\n";
+    std::cout << "Found " << biclusters.size() << " biclusters." << std::endl;
 
 
     std::cout << "Sorted heuristic\n";
     // Constructive heuristic 1:
-    std::vector<Bicluster>  biclusters = runSortedHeuristic(dataMatrix, 20.0, 1);
-    printBiclusters(biclusters);
+    std::vector<Bicluster> sortedBi = runSortedHeuristic(dataMatrix, 5., 4);
+    printBiclusters(sortedBi);
     std::cout << "Done Sorted heuristic\n";
-    std::cout << "Found " << biclusters.size() << " biclusters." << std::endl;
+    std::cout << "Found " << sortedBi.size() << " biclusters." << std::endl;
 
     
     // Constructive heuristic 2:

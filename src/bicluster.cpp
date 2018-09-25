@@ -45,7 +45,7 @@ std::ostream& operator<<(std::ostream& out, const Bicluster& bicluster){
 
         // Print quality:
         out << "Quality index: "; 
-        out << (((numRows * numCols) / (numRows + numCols)) / bicluster.variance);
+        out << ((((double)numRows * numCols) / (numRows + numCols)) / bicluster.variance);
         out << std::endl;
 
     return out;
