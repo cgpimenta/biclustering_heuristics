@@ -19,8 +19,11 @@ Bicluster::Bicluster(const std::vector<int>& rows, const std::vector<int>& cols)
 
 
 std::ostream& operator<<(std::ostream& out, const Bicluster& bicluster){
+        int numRows = bicluster.rows.size();
+        int numCols = bicluster.cols.size();
+
         // Print number of rows:
-        out << "Number of rows: " << bicluster.rows.size() << std::endl;
+        out << "Number of rows: " << numRows << std::endl;
         
         // Print rows:
         // out << "Rows:" << std::endl;
@@ -29,7 +32,7 @@ std::ostream& operator<<(std::ostream& out, const Bicluster& bicluster){
         // } out << std::endl;
 
         // Print number of cols:
-        out << "Number of columns: " << bicluster.cols.size() << std::endl;
+        out << "Number of columns: " << numCols << std::endl;
 
         // Print columns:
         // out << "Columns:" << std::endl;
@@ -42,7 +45,7 @@ std::ostream& operator<<(std::ostream& out, const Bicluster& bicluster){
 
         // Print quality:
         out << "Quality index: "; 
-        out << (bicluster.rows.size() * bicluster.cols.size() / bicluster.variance);
+        out << (((numRows * numCols) / (numRows + numCols)) / bicluster.variance);
         out << std::endl;
 
     return out;
@@ -74,7 +77,7 @@ double getBiclusterMean(Bicluster &bicluster, std::vector<std::vector<double> >&
         }
     }
 
-    return sum / (numRows + numCols);
+    return sum / (numRows * numCols);
 }
 
 double getBiclusterVariance(Bicluster &bicluster, std::vector<std::vector<double> >& dataMatrix) {
@@ -93,5 +96,5 @@ double getBiclusterVariance(Bicluster &bicluster, std::vector<std::vector<double
         }
     }
 
-    return sum / (numRows + numCols);
+    return sum / (numRows * numCols);
 }
