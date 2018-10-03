@@ -1,5 +1,6 @@
 #include "bicluster.h"
 #include <iostream>
+#include <cmath>
 
 
 Bicluster::Bicluster(){
@@ -44,9 +45,10 @@ std::ostream& operator<<(std::ostream& out, const Bicluster& bicluster){
         out << "Variance: " << bicluster.variance << std::endl;
 
         // Print quality:
+        double area = (double)numRows * numCols;
+        double qIndex = log(area) / bicluster.variance;
         out << "Quality index: "; 
-        out << ((((double)numRows * numCols) / (numRows + numCols)) / bicluster.variance);
-        out << std::endl;
+        out << qIndex << std::endl;
 
     return out;
 }
