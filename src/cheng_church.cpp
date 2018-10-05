@@ -7,7 +7,7 @@
 std::vector<Solution> runChengChurchAux(Matrix &dataMatrix, double maxResidue, double threshold, int numClusters);
 Solution singleNodeDeletion(Matrix &dataMatrix, Solution &sol, double maxResidue);
 std::pair<Solution, bool> multipleNodeDeletion(Matrix &dataMatrix, Solution &sol, double maxResidue, double threshold);
-Solution nodeAdition(Matrix &dataMatrix, Solution &sol);
+Solution nodeAdition(Matrix &dataMatrix, Solution &sol, Matrix &newMatrix);
 void initSolution(Solution &sol, Matrix &dataMatrix);
 double rcResidue(Matrix &dataMatrix, int idx, Solution &sol, std::string dim);
 double residueScore(Matrix &dataMatrix, Solution &sol);
@@ -31,9 +31,6 @@ std::vector<Bicluster> runChengChurch(Matrix dataMatrix, double maxResidue, doub
         bi.variance = getBiclusterVariance(bi, dataMatrix);
         solutions.push_back(bi);
     }
-
-    // std::cout << "Variance: " << getBiclusterVariance(solutions[0], dataMatrix) << std::endl;;
-    // std::cout << "MSR: " << solAux[0].residue << std::endl;;
 
     return solutions;
 }
@@ -75,7 +72,7 @@ std::vector<Solution> runChengChurchAux(Matrix &dataMatrix, double maxResidue, d
         }
         
         solD = solC;
-        solD = nodeAdition(originalMatrix, solC);                                    // Algorithm 3
+        solD = nodeAdition(originalMatrix, solC, dataMatrix);                                    // Algorithm 3
 
         solD.residue = residueScore(dataMatrix, solD);
 
@@ -174,7 +171,7 @@ std::pair<Solution, bool> multipleNodeDeletion(Matrix &dataMatrix, Solution &sol
     return std::pair<Solution, bool>(solAux, removed);
 }
 
-Solution nodeAdition(Matrix &dataMatrix, Solution &sol) {
+Solution nodeAdition(Matrix &dataMatrix, Solution &sol, Matrix &newMatrix) {
     Solution solAux = sol;
 
     solAux.matrixMean = getMatrixMean(dataMatrix, solAux);
@@ -212,11 +209,11 @@ Solution nodeAdition(Matrix &dataMatrix, Solution &sol) {
 
     // For each row not in solution, add its inverse if 
     // residueAux <= matrix_residue:
-    for (int &row: sol.deletedRows) {
-        if (rowResidueAux(dataMatrix, row, sol) <= sqResidue) {
-            addInvRow(dataMatrix, row, solAux);
-        }
-    }
+    // for (int &row: sol.deletedRows) {
+    //     if (rowResidueAux(newMatrix, row, sol) <= sqResidue) {
+    //         addInvRow(newMatrix, row, solAux);
+    //     }
+    // }
 
     return solAux; 
 }
@@ -278,8 +275,8 @@ double residueScore(Matrix &dataMatrix, Solution &sol) {
 
     for (int &row: sol.rows) {
         rowMean = sol.rowMeans[row];
-
         for (int &col: sol.cols) {
+
             colMean = sol.colMeans[col];
 
             residue = dataMatrix[row][col] - rowMean - colMean + sol.matrixMean;
@@ -393,8 +390,8 @@ void addInvRow(Matrix &dataMatrix, int row, Solution &sol) {
         rowAux.begin(), rowAux.end(), rowAux.begin(), 
         [](double d) -> double { return -d; });
 
+    sol.rows.push_back(dataMatrix.size());
     dataMatrix.push_back(rowAux);
-    sol.rows.push_back(dataMatrix.size() + 1);
 }
 
 void replaceElements(Matrix &dataMatrix, Solution &solAux, Solution &solD, pdd matrixMaxMin) {

@@ -1,0 +1,46 @@
+Cheng & Church
+min: -24.5538
+max: 17.623
+
+Original matrix:
+Num rows = 12553
+Num cols = 83
+-----------------------
+Bicluster 1
+
+Number of rows: 10269
+Number of columns: 70
+Variance: 217.567
+Quality index: 0.0619827
+
+--------------------------
+
+Bicluster 2
+
+Number of rows: 9016
+Number of columns: 58
+Variance: 161.816
+Quality index: 0.0813715
+
+--------------------------
+
+Bicluster 3
+
+Number of rows: 8102
+Number of columns: 42
+Variance: 4.40968
+Quality index: 2.88854
+
+--------------------------
+
+Bicluster 4
+
+Number of rows: 8101
+Number of columns: 42
+Variance: 4.3905
+Quality index: 2.90113
+
+--------------------------
+
+Done Cheng & Church
+Found 4 biclusters.
