@@ -1,0 +1,26 @@
+Cheng & Church
+min: -0.0620079
+max: 8.48255
+
+Original matrix:
+Num rows = 1080
+Num cols = 77
+-----------------------
+Running time: 2.3669s
+Done Cheng & Church
+Found 4 biclusters.
+
+Teng & Chan
+Running time: 20.8708s
+Done Teng & Chan
+Found 4 biclusters.
+
+Sorted heuristic
+Running time: 0.031818s
+Done Sorted heuristic
+Found 4 biclusters.
+
+POC
+Build Graph: 0.988452s
+Dynamic programming: 0.006091s
+Total: 0.994543

@@ -1,0 +1,39 @@
+Sorted heuristic
+Bicluster 1
+
+Number of rows: 915
+Number of columns: 77
+Variance: 0.774138
+Quality index: 14.4196
+
+--------------------------
+
+Bicluster 2
+
+Number of rows: 76
+Number of columns: 77
+Variance: 0.664073
+Quality index: 13.0626
+
+--------------------------
+
+Bicluster 3
+
+Number of rows: 76
+Number of columns: 77
+Variance: 0.338767
+Quality index: 25.6062
+
+--------------------------
+
+Bicluster 4
+
+Number of rows: 13
+Number of columns: 77
+Variance: 0.225888
+Quality index: 30.5848
+
+--------------------------
+
+Done Sorted heuristic
+Found 4 biclusters.

@@ -1,0 +1,211 @@
+(1080, 77)
+Bicluster 0:
+Number of rows: 3
+Number of columns: 45
+Variance: 0.0860303307214
+Quality index: 57.0179695615
+
+Bicluster 1:
+Number of rows: 1
+Number of columns: 27
+Variance: 0.871374646079
+Quality index: 3.7823419362
+
+Bicluster 2:
+Number of rows: 1
+Number of columns: 22
+Variance: 1.02022745536
+Quality index: 3.02975815552
+
+Bicluster 3:
+Number of rows: 4
+Number of columns: 20
+Variance: 2.25449009977
+Quality index: 1.94368856848
+
+Bicluster 4:
+Number of rows: 2
+Number of columns: 24
+Variance: 2.01459347212
+Quality index: 1.92157924885
+
+Bicluster 5:
+Number of rows: 3
+Number of columns: 30
+Variance: 2.41433920172
+Quality index: 1.86378519933
+
+Bicluster 6:
+Number of rows: 7
+Number of columns: 26
+Variance: 3.63514587949
+Quality index: 1.43158125137
+
+Bicluster 7:
+Number of rows: 3
+Number of columns: 20
+Variance: 3.33015173802
+Quality index: 1.22947687803
+
+Bicluster 8:
+Number of rows: 10
+Number of columns: 29
+Variance: 5.06052010138
+Quality index: 1.1204146628
+
+Bicluster 9:
+Number of rows: 12
+Number of columns: 21
+Variance: 5.63162001107
+Quality index: 0.981854080467
+
+Bicluster 10:
+Number of rows: 10
+Number of columns: 30
+Variance: 6.05916002306
+Quality index: 0.941348710539
+
+Bicluster 11:
+Number of rows: 11
+Number of columns: 28
+Variance: 6.2485550297
+Quality index: 0.917027977786
+
+Bicluster 12:
+Number of rows: 11
+Number of columns: 21
+Variance: 6.09311088175
+Quality index: 0.893208381752
+
+Bicluster 13:
+Number of rows: 14
+Number of columns: 22
+Variance: 6.46750918804
+Quality index: 0.885982472754
+
+Bicluster 14:
+Number of rows: 9
+Number of columns: 29
+Variance: 6.69884755085
+Quality index: 0.830668314972
+
+Bicluster 15:
+Number of rows: 8
+Number of columns: 23
+Variance: 6.2929444327
+Quality index: 0.828695662799
+
+Bicluster 16:
+Number of rows: 14
+Number of columns: 25
+Variance: 7.08912498719
+Quality index: 0.826326685603
+
+Bicluster 17:
+Number of rows: 9
+Number of columns: 20
+Variance: 6.35576477339
+Quality index: 0.817046734113
+
+Bicluster 18:
+Number of rows: 6
+Number of columns: 20
+Variance: 6.00579588861
+Quality index: 0.797145262938
+
+Bicluster 19:
+Number of rows: 12
+Number of columns: 30
+Variance: 7.93544400376
+Quality index: 0.741748543454
+
+Bicluster 20:
+Number of rows: 12
+Number of columns: 20
+Variance: 7.69817739731
+Quality index: 0.711939806071
+
+Bicluster 21:
+Number of rows: 13
+Number of columns: 26
+Variance: 8.28911140807
+Quality index: 0.702493380631
+
+Bicluster 22:
+Number of rows: 15
+Number of columns: 24
+Variance: 8.47426141278
+Quality index: 0.69458608187
+
+Bicluster 23:
+Number of rows: 8
+Number of columns: 20
+Variance: 7.54285234523
+Quality index: 0.672845441346
+
+Bicluster 24:
+Number of rows: 8
+Number of columns: 20
+Variance: 7.73906683341
+Quality index: 0.655786275592
+
+Bicluster 25:
+Number of rows: 10
+Number of columns: 29
+Variance: 8.84361415471
+Quality index: 0.641127125606
+
+Bicluster 26:
+Number of rows: 12
+Number of columns: 28
+Variance: 9.53190207286
+Quality index: 0.610278107717
+
+Bicluster 27:
+Number of rows: 16
+Number of columns: 28
+Variance: 10.1200617679
+Quality index: 0.6032367561
+
+Bicluster 28:
+Number of rows: 14
+Number of columns: 28
+Variance: 10.018080953
+Quality index: 0.596048471537
+
+Bicluster 29:
+Number of rows: 15
+Number of columns: 25
+Variance: 11.2780185048
+Quality index: 0.525529021207
+
+Bicluster 30:
+Number of rows: 15
+Number of columns: 24
+Variance: 11.3399873908
+Quality index: 0.51905737005
+
+Bicluster 31:
+Number of rows: 15
+Number of columns: 27
+Variance: 11.6056925454
+Quality index: 0.517322602132
+
+Bicluster 32:
+Number of rows: 20
+Number of columns: 27
+Variance: 12.3440840819
+Quality index: 0.50968294592
+
+Bicluster 33:
+Number of rows: 12
+Number of columns: 24
+Variance: 11.3664210895
+Quality index: 0.498218430896
+
+Bicluster 34:
+Number of rows: 90
+Number of columns: 24
+Variance: 21.6718798175
+Quality index: 0.354277689122
+

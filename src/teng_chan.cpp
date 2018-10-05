@@ -173,7 +173,7 @@ void weightedCorrBicluster(MatrixT& data, double alpha, double threshold, std::v
     std::vector<std::vector<double> > alt_similarity_matrix(m, std::vector<double>(m));
 
     for(int iteration = 0; iteration < max && biclusters_exists; iteration++){
-        std::cout << "Iteration " << iteration << std::endl;
+        // std::cout << "Iteration " << iteration << std::endl;
         for(int i = 0; i < ITERATIONS; i++){
             // std::cout << "------- " << i << ".1" << std::endl;
             update_feature_weight(feature_weight, flag.first, alpha);
