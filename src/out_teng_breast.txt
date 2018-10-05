@@ -1,0 +1,43 @@
+Teng & Chan
+Iteration 0
+Iteration 1
+Iteration 2
+Iteration 3
+Bicluster 1
+
+Number of rows: 1
+Number of columns: 9
+Variance: 1.26218e-29
+Quality index: 1.74082e+29
+
+--------------------------
+
+Bicluster 2
+
+Number of rows: 1
+Number of columns: 9
+Variance: 36.9251
+Quality index: 0.0595049
+
+--------------------------
+
+Bicluster 3
+
+Number of rows: 1
+Number of columns: 9
+Variance: 62.1338
+Quality index: 0.0353628
+
+--------------------------
+
+Bicluster 4
+
+Number of rows: 1
+Number of columns: 9
+Variance: 77.2714
+Quality index: 0.0284352
+
+--------------------------
+
+Done Teng & Chan
+Found 4 biclusters.
