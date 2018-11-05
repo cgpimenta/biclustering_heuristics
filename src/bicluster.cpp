@@ -27,19 +27,19 @@ std::ostream& operator<<(std::ostream& out, const Bicluster& bicluster){
         out << "Number of rows: " << numRows << std::endl;
         
         // Print rows:
-        // out << "Rows:" << std::endl;
-        // for (const int &row: bicluster.rows) {
-        //     out << row << " ";
-        // } out << std::endl;
+        out << "Rows:" << std::endl;
+        for (const int &row: bicluster.rows) {
+            out << row << " ";
+        } out << std::endl;
 
         // Print number of cols:
         out << "Number of columns: " << numCols << std::endl;
 
         // Print columns:
-        // out << "Columns:" << std::endl;
-        // for (const int &col: bicluster.cols) {
-        //     out << col << " ";
-        // } out << std::endl;
+        out << "Columns:" << std::endl;
+        for (const int &col: bicluster.cols) {
+            out << col << " ";
+        } out << std::endl;
         
         // Print variance:
         out << "Variance: " << bicluster.variance << std::endl;
