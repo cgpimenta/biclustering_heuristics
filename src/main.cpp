@@ -6,6 +6,7 @@
 #include "teng_chan.h"
 #include "sorted_heuristic.h"
 #include "local_search.h"
+#include "grasp.h"
 #include <time.h>       /* clock_t, clock, CLOCKS_PER_SEC */
 #include <cstdlib>
 
@@ -45,20 +46,30 @@ int main(int argc, char **argv) {
     std::vector<Bicluster> sortedBi = runSortedHeuristic(dataMatrix, threshold_sorted, 4);
     t = clock() - t;
     std::cout << "Running time: " << ((float)t)/CLOCKS_PER_SEC << "s\n";
-    printBiclusters(sortedBi);
+    // printBiclusters(sortedBi);
     std::cout << "Done Sorted heuristic\n";
     std::cout << "Found " << sortedBi.size() << " biclusters." << std::endl;
 
 
-    std::cout << "Local search heuristic\n";
-    // Constructive heuristic 1:
+    // std::cout << "Local search heuristic\n";
+    // // Constructive heuristic 1:
+    // t = clock();
+    // std::vector<Bicluster> localBi = local_search(dataMatrix, sortedBi);
+    // t = clock() - t;
+    // std::cout << "Running time: " << ((float)t)/CLOCKS_PER_SEC << "s\n";
+    // printBiclusters(localBi);
+    // std::cout << "Done Local search heuristic\n";
+    // std::cout << "Found " << localBi.size() << " biclusters." << std::endl;
+
+    // GRASP:
+    std::cout << "\nGRASP\n";
     t = clock();
-    std::vector<Bicluster> localBi = local_search(dataMatrix, sortedBi);
+    std::vector<Bicluster> graspBi = runGraspHeuristic(dataMatrix, 4, 50, threshold_sorted, sortedBi[0]);
     t = clock() - t;
     std::cout << "Running time: " << ((float)t)/CLOCKS_PER_SEC << "s\n";
-    printBiclusters(localBi);
-    std::cout << "Done Local search heuristic\n";
-    std::cout << "Found " << localBi.size() << " biclusters." << std::endl;
+    printBiclusters(graspBi);
+    std::cout << "Done GRASP heuristic\n";
+    std::cout << "Found " << graspBi.size() << " biclusters." << std::endl;
 
     return 0;
 }
