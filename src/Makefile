@@ -1,6 +1,6 @@
 CXX     	= g++
 CXXFLAGS  	= -Wall -std=c++11
-OBJS    	= runningstat.o local_search.o sorted_heuristic.o cheng_church.o teng_chan.o matrix.o bicluster.o readcsv.o main.o util.o
+OBJS    	= runningstat.o tabu_search.o tabu_list.o local_search.o sorted_heuristic.o cheng_church.o teng_chan.o matrix.o bicluster.o readcsv.o main.o util.o
 
 
 TARGET	= proj
@@ -11,9 +11,13 @@ default: $(TARGET)
 $(TARGET): $(OBJS) 
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $@
 
-main.o: main.cpp readcsv.h local_search.h cheng_church.h teng_chan.h sorted_heuristic.h bicluster.h
+main.o: main.cpp readcsv.h tabu_search.h tabu_list.h local_search.h cheng_church.h teng_chan.h sorted_heuristic.h bicluster.h
 
-local_search.o: local_search.cpp local_search.h bicluster.h matrix.h
+tabu_search.o: tabu_search.cpp tabu_search.h bicluster.h tabu_list.h
+
+tabu_list.o: tabu_list.cpp tabu_list.h bicluster.h
+
+local_search.o: local_search.cpp local_search.h bicluster.h
 
 sorted_heuristic.o: sorted_heuristic.cpp sorted_heuristic.h runningstat.h bicluster.h matrix.h
 
