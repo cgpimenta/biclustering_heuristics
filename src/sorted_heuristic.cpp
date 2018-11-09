@@ -2,6 +2,8 @@
 #include "sorted_heuristic.h"
 #include "runningstat.h"
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 #define ITERATIONS 2
 #define MIN_SIZE 4
@@ -19,6 +21,20 @@ void get_sorting_vector(const MatrixT& data, std::vector<double>& sorting_vector
             max_value = std::max(max_value, data(i, j));
         }
         sorting_vector[i] = max_value;
+    }
+}
+
+
+void get_random_vector(const MatrixT& data, std::vector<double>& sorting_vector){
+    srand(time(NULL));
+    // srand(1);
+
+    std::pair<int, int> dimension = data.dimension();
+    int rows = dimension.first;
+    int cols = dimension.second;
+
+    for(int i = 0; i < rows; i++){
+        sorting_vector[i] = rand();
     }
 }
 
@@ -105,7 +121,7 @@ bool find_bicluster(MatrixT& data, double threshold, Bicluster& bicluster){
 
 
 // Input: the initial gene expression data matrix data, f, a and the Threshold,
-void sortedBicluster(MatrixT& data, double threshold, std::vector<Bicluster>& biclusters, int max, const std::vector<std::vector<double> >& dataMatrix){
+void sortedBicluster(MatrixT& data, double threshold, std::vector<Bicluster>& biclusters, int max, const std::vector<std::vector<double> >& dataMatrix, bool random){
 
     std::pair<int, int> dimension = data.dimension();
     int n = dimension.first;
@@ -114,12 +130,17 @@ void sortedBicluster(MatrixT& data, double threshold, std::vector<Bicluster>& bi
     std::vector<double> sorting_vector(n);
     std::vector<double> alt_sorting_vector(m);
 
-    for(int iteration = 0; iteration < max; iteration++){
+    for(int iteration = 0; iteration < max;){
         // std::cout << data << std::endl;
         // std::cout << "Iteration " << iteration << std::endl;
         for(int i = 0; i < ITERATIONS; i++){
             // std::cout << "------- " << i << ".1" << std::endl;
-            get_sorting_vector(data, sorting_vector);     // use dominant set approach to find the sorting vector
+            if (random) {
+                get_random_vector(data, sorting_vector);
+            } else {
+                get_sorting_vector(data, sorting_vector);     // use dominant set approach to find the sorting vector
+            }
+
             // std::cout << "------- " << i << ".2" << std::endl;
             data.weighted_row_sort(sorting_vector);             // sort the rows of matrix data
             // std::cout << "------- " << i << ".3" << std::endl;
@@ -136,15 +157,19 @@ void sortedBicluster(MatrixT& data, double threshold, std::vector<Bicluster>& bi
         if(find_bicluster(data, threshold, bicluster)){
             bicluster.variance = getBiclusterVariance(bicluster, dataMatrix);        //extract the bicluster from the sorted data matrix
             biclusters.push_back(bicluster);
+            iteration++;
         }
     }
     // std::cout << data << std::endl;
 }
 
-
 std::vector<Bicluster> runSortedHeuristic(const std::vector<std::vector<double> >& dataMatrix, double threshold, int max){
+    return runSortedHeuristic(dataMatrix, threshold, max, false);
+}
+
+std::vector<Bicluster> runSortedHeuristic(const std::vector<std::vector<double> >& dataMatrix, double threshold, int max, bool random){
     std::vector<Bicluster> biclusters;
     MatrixT data(dataMatrix);
-    sortedBicluster(data, threshold, biclusters, max, dataMatrix);
+    sortedBicluster(data, threshold, biclusters, max, dataMatrix, random);
     return biclusters;
 }

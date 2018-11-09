@@ -1,0 +1,35 @@
+Sorted heuristic
+Running time: 0.001035s
+Bicluster 1
+
+Number of rows: 10
+Rows:
+164 28 685 168 521 569 985 189 1021 382 
+Number of columns: 10
+Columns:
+28 37 61 14 49 73 74 47 15 4 
+Variance: 1.14833
+Quality index: 4.0103
+
+--------------------------
+
+Done Sorted heuristic
+Found 1 biclusters.
+
+GRASP
+Running time: 27.3641s
+Bicluster 1
+
+Number of rows: 10
+Rows:
+639 640 643 879 880 881 882 883 884 972 
+Number of columns: 10
+Columns:
+11 13 26 27 56 58 67 73 74 75 
+Variance: 0.000351898
+Quality index: 13086.7
+
+--------------------------
+
+Done GRASP heuristic
+Found 1 biclusters.

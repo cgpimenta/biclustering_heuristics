@@ -75,7 +75,6 @@ bool diff1_Neighborhood(const std::vector<std::vector<double> >& dataMatrix, Bic
 std::vector<Bicluster> local_search(const std::vector<std::vector<double> >& dataMatrix, std::vector<Bicluster> &initial_solution){
     for(Bicluster &bi : initial_solution){
         while(diff1_Neighborhood(dataMatrix, bi, 0));
-
     }
     return initial_solution;
 }
