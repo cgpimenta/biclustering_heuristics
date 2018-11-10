@@ -1,0 +1,28 @@
+Build Graph: 7.44749s
+Dynamic programming: 0.026803s
+Post process: 0.114195s
+
+Bicluster 7:
+Number of rows: 1
+Number of columns: 86
+Variance: 0.07391071905907515
+Quality index: 60.26659397932862
+()
+Bicluster 8:
+Number of rows: 1
+Number of columns: 86
+Variance: 0.11026463512429828
+Quality index: 40.396880570386365
+()
+Bicluster 9:
+Number of rows: 1
+Number of columns: 86
+Variance: 0.14474739374498788
+Quality index: 30.77324697190098
+()
+Bicluster 10:
+Number of rows: 1
+Number of columns: 43
+Variance: 0.12526427061310788
+Quality index: 30.02612075481948
+()

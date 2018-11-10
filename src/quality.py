@@ -52,10 +52,15 @@ if __name__ == '__main__':
         quality = get_quality(bicluster, var)
         results.append((quality, var, len(bicluster[0]), len(bicluster[1])))
 
+    total = 0
     for i, bicluster in enumerate(sorted(results, reverse=True)):
-        print('Bicluster ' + str(i) + ':')
-        print('Number of rows: ' + str(bicluster[2]))
-        print('Number of columns: ' + str(bicluster[3]))
-        print('Variance: ' + str(bicluster[1]))
-        print('Quality index: ' + str(bicluster[0]))
-        print()
+        if bicluster[0] != float('inf'):
+            print('Bicluster ' + str(i) + ':')
+            print('Number of rows: ' + str(bicluster[2]))
+            print('Number of columns: ' + str(bicluster[3]))
+            print('Variance: ' + str(bicluster[1]))
+            print('Quality index: ' + str(bicluster[0]))
+            print()
+            total += 1
+        if total == 4:
+            break
