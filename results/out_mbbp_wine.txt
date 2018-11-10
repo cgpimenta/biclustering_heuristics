@@ -1,0 +1,8 @@
+(178, 13)
+Bicluster 0:
+Number of rows: 3
+Number of columns: 2
+Variance: 225345.0666666667
+Quality index: 7.951181251633293e-06
+
+time: 40.008

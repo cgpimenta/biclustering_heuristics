@@ -1,0 +1,22 @@
+Sorted heuristic
+Running time: 0.039754s
+Done Sorted heuristic
+Found 4 biclusters.
+
+GRASP
+Running time: 0.018056s
+Bicluster 1
+
+Number of rows: 4
+Rows:
+3 10 48 120 
+Number of columns: 3
+Columns:
+1 2 8 
+Variance: 0.0420389
+Quality index: 59.1097
+
+--------------------------
+
+Done GRASP heuristic
+Found 1 biclusters.

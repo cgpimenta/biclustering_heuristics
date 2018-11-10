@@ -1,0 +1,7 @@
+(12553, 83)
+Bicluster 0:
+Number of rows: 76
+Number of columns: 76
+Variance: 25.009755282275357
+Quality index: 0.34632352787198695
+

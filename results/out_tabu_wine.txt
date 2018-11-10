@@ -1,0 +1,60 @@
+Sorted heuristic
+Running time: 0.022952s
+Done Sorted heuristic
+Found 4 biclusters.
+Tabu search Metaheuristic
+Running time: 0.736236s
+Bicluster 1
+
+Number of rows: 6
+Rows:
+161 109 88 43 60 65 
+Number of columns: 1
+Columns:
+12 
+Variance: 0.555556
+Quality index: 3.22517
+
+--------------------------
+
+Bicluster 2
+
+Number of rows: 5
+Rows:
+142 59 160 84 165 
+Number of columns: 1
+Columns:
+12 
+Variance: 0
+Quality index: inf
+
+--------------------------
+
+Bicluster 3
+
+Number of rows: 5
+Rows:
+7 175 176 16 121 
+Number of columns: 1
+Columns:
+4 
+Variance: 0.4
+Quality index: 4.02359
+
+--------------------------
+
+Bicluster 4
+
+Number of rows: 6
+Rows:
+4 54 56 40 19 55 
+Number of columns: 1
+Columns:
+4 
+Variance: 0.805556
+Quality index: 2.22425
+
+--------------------------
+
+Done Tabu search Metaheuristic
+Found 4 biclusters.
