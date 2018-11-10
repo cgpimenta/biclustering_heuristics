@@ -1,29 +1,28 @@
-Build Graph: 7.44749s
-Dynamic programming: 0.026803s
-Post process: 0.114195s
-Total: 7.588488s
+Build Graph: 7.45289s
+Dynamic programming: 0.030316s
+Total Time: 7.4832s
 
-Bicluster 7:
+Bicluster 3:
 Number of rows: 1
 Number of columns: 86
-Variance: 0.07391071905907515
-Quality index: 60.26659397932862
-()
-Bicluster 8:
+Variance: 0.02271498107084912
+Quality index: 196.09733692316024
+
+Bicluster 4:
 Number of rows: 1
-Number of columns: 86
-Variance: 0.11026463512429828
-Quality index: 40.396880570386365
-()
-Bicluster 9:
+Number of columns: 35
+Variance: 0.03023885714285714
+Quality index: 117.57547729707234
+
+Bicluster 5:
 Number of rows: 1
-Number of columns: 86
-Variance: 0.14474739374498788
-Quality index: 30.77324697190098
-()
-Bicluster 10:
+Number of columns: 30
+Variance: 0.0322222222222222
+Quality index: 105.55440149986006
+
+Bicluster 6:
 Number of rows: 1
-Number of columns: 43
-Variance: 0.12526427061310788
-Quality index: 30.02612075481948
-()
+Number of columns: 29
+Variance: 0.03329369797859693
+Quality index: 101.13913546495083
+

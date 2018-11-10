@@ -6,13 +6,12 @@ import sys
 
 def loadtxt(file, delimiter=','):
     with open(file, 'r') as f:
-        return [list(map(lambda x: int(x) - 1, line[:-1].split(delimiter))) for line in f]
+        return [list(map(int, line[:-1].split(delimiter))) for line in f]
 
 
 def getBiclusterMean(bicluster, dataMatrix):
     numRows = len(bicluster[0])
     numCols = len(bicluster[1])
-
     total_sum = np.sum(dataMatrix[np.ix_(bicluster[0], bicluster[1])])
 
     return total_sum / (numRows * numCols)
@@ -22,12 +21,13 @@ def getBiclusterVariance(bicluster, matrix):
     numRows = len(bicluster[0])
     numCols = len(bicluster[1])
     biclusterMean = getBiclusterMean(bicluster, matrix)
+
     total_sum = 0
     for row in bicluster[0]:
         for col in bicluster[1]:
             deviation = matrix[row][col] - biclusterMean
             total_sum += deviation * deviation
-    return total_sum / (numRows + numCols)
+    return total_sum / (numRows * numCols)
 
 
 def get_quality(bicluster, variance):

@@ -1,10 +1,9 @@
-Build Graph: 0.038625s
-Dynamic programming: 0.000131s
-Post process: 2e-06s
-Total: 0.038758s
+Build Graph: 0.039655s
+Dynamic programming: 0.000154s
+Total Time: 0.039809s
 
 Bicluster 0:
 Number of rows: 178
 Number of columns: 1
-Variance: 98058.70934027986
-Quality index: 5.284368502455446e-05
+Variance: 0.5012544628203512
+Quality index: 10.337630753722042

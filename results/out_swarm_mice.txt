@@ -1,9 +1,8 @@
-(1080, 77)
 Bicluster 0:
 Number of rows: 1080
 Number of columns: 70
-Variance: 25.600771178939326
-Quality index: 0.4387841086368802
+Variance: 0.3894297203145532
+Quality index: 28.845285750389692
 
 1.080
 1.080 77
