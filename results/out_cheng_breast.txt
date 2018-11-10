@@ -6,6 +6,7 @@ Original matrix:
 Num rows = 12553
 Num cols = 83
 -----------------------
+Running time: 375.889s
 Bicluster 1
 
 Number of rows: 10269

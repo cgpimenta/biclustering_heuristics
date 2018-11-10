@@ -1,4 +1,6 @@
 Sorted heuristic
+Running time: 3.26477s
+
 Bicluster 1
 
 Number of rows: 83

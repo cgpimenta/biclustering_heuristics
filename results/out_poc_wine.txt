@@ -1,6 +1,7 @@
 Build Graph: 0.038625s
 Dynamic programming: 0.000131s
 Post process: 2e-06s
+Total: 0.038758s
 
 Bicluster 0:
 Number of rows: 178
