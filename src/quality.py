@@ -7,6 +7,7 @@ import sys
 def loadtxt(file, delimiter=','):
     with open(file, 'r') as f:
         return [list(map(int, line[:-1].split(delimiter))) for line in f]
+        # return [list(map(lambda x: int(x) - 1, line[:-1].split(delimiter))) for line in f]
 
 
 def getBiclusterMean(bicluster, dataMatrix):

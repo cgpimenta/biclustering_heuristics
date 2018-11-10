@@ -28,3 +28,35 @@ Number of columns: 39
 Variance: 0.25279527740857505
 Quality index: 14.492207622251154
 ()
+
+
+Build Graph: 1.96733s
+Dynamic programming: 0.004598s
+Total Time: 1.97193s
+
+(1080, 77)
+Bicluster 0:
+Number of rows: 3
+Number of columns: 45
+Variance: 0.03058856203428792
+Quality index: 160.36303939164955
+()
+Bicluster 1:
+Number of rows: 7
+Number of columns: 32
+Variance: 0.4015851388752987
+Quality index: 13.475712938509606
+()
+Bicluster 2:
+Number of rows: 21
+Number of columns: 30
+Variance: 0.5219306453321626
+Quality index: 12.349763090234813
+()
+Bicluster 3:
+Number of rows: 8
+Number of columns: 33
+Variance: 0.48395535508889265
+Quality index: 11.521618770231665
+()
+
