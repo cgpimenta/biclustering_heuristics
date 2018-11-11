@@ -1,8 +1,7 @@
 Teng & Chan
-Iteration 0
-Iteration 1
-Iteration 2
-Iteration 3
+
+--------------------------
+Running time: 3831.62s
 Bicluster 1
 
 Number of rows: 1

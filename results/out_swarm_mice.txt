@@ -1,0 +1,24 @@
+Bicluster 0:
+Number of rows: 1080
+Number of columns: 70
+Variance: 0.3894297203145532
+Quality index: 28.845285750389692
+
+1.080
+1.080 77
+Read ok! [min, max] = [-0,0620079 8,48255]
+1.080
+fim neta
+Current User = 0 77
+75.600 0,0506971 0,201149
+75.600 0,0506971 0,201149
+75.600 0,0506971 0,201149
+75.600 0,0506971 0,201149
+75.600 0,0506971 0,201729
+No. of biclusters:      1
+Mean    Var.    Median  Min.    Max.
+Residue:        0,0506971       0       0       0,0506971       0,0506971
+Volume:         75.600  0       0       75.600  75.600
+Overlap:        -1,#IND 0       0       1,79769e+308    -1,79769e+308
+Coverage:       0,909091
+Process time: 429.942
