@@ -27,7 +27,7 @@ def getBiclusterVariance(bicluster, matrix):
         for col in bicluster[1]:
             deviation = matrix[row][col] - biclusterMean
             total_sum += deviation * deviation
-    return total_sum / (numRows + numCols)
+    return total_sum / (numRows * numCols)
 
 
 def get_quality(bicluster, variance):

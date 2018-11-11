@@ -19,34 +19,35 @@ int main(int argc, char **argv) {
 
     double maxResidue = 0.005;
     double threshold = 1.05;
-    int numClusters = 1;
-    std::cout << "Cheng & Church\n";
-    // Cheng & Church:
-    t = clock();
-    std::vector<Bicluster> sols = runChengChurch(dataMatrix, maxResidue, threshold, numClusters);
-    t = clock() - t;
-    std::cout << "Running time: " << ((float)t)/CLOCKS_PER_SEC << "s\n";
-    printBiclusters(sols);
-    std::cout << "Done Cheng & Church\n";
-    std::cout << "Found " << sols.size() << " biclusters." << std::endl;
+    int numClusters = 4;
 
-    std::cout << "Teng & Chan\n";
-    // Teng & Chan:
-    t = clock();
-    std::vector<Bicluster> biclusters = runTengChan(dataMatrix, 0.2, 0.5, numClusters);
-    t = clock() - t;
-    std::cout << "Running time: " << ((float)t)/CLOCKS_PER_SEC << "s\n";
-    printBiclusters(biclusters);
-    std::cout << "Done Teng & Chan\n";
-    std::cout << "Found " << biclusters.size() << " biclusters." << std::endl;
+    // std::cout << "Cheng & Church\n";
+    // // Cheng & Church:
+    // t = clock();
+    // std::vector<Bicluster> sols = runChengChurch(dataMatrix, maxResidue, threshold, numClusters);
+    // t = clock() - t;
+    // std::cout << "Running time: " << ((float)t)/CLOCKS_PER_SEC << "s\n";
+    // printBiclusters(sols);
+    // std::cout << "Done Cheng & Church\n";
+    // std::cout << "Found " << sols.size() << " biclusters." << std::endl;
+
+    // std::cout << "Teng & Chan\n";
+    // // Teng & Chan:
+    // t = clock();
+    // std::vector<Bicluster> biclusters = runTengChan(dataMatrix, 0.2, 0.5, numClusters);
+    // t = clock() - t;
+    // std::cout << "Running time: " << ((float)t)/CLOCKS_PER_SEC << "s\n";
+    // printBiclusters(biclusters);
+    // std::cout << "Done Teng & Chan\n";
+    // std::cout << "Found " << biclusters.size() << " biclusters." << std::endl;
 
     std::cout << "Sorted heuristic\n";
     // Constructive heuristic 1:
     t = clock();
-    std::vector<Bicluster> sortedBi = runSortedHeuristic(dataMatrix, threshold_sorted, 1, false);
+    std::vector<Bicluster> sortedBi = runSortedHeuristic(dataMatrix, threshold_sorted, 4, false);
     t = clock() - t;
     std::cout << "Running time: " << ((float)t)/CLOCKS_PER_SEC << "s\n";
-    printBiclusters(sortedBi);
+    // printBiclusters(sortedBi);
     std::cout << "Done Sorted heuristic\n";
     std::cout << "Found " << sortedBi.size() << " biclusters." << std::endl;
 
@@ -61,19 +62,19 @@ int main(int argc, char **argv) {
     // std::cout << "Found " << localBi.size() << " biclusters." << std::endl;
 
     // Tabu Search:
-    std::cout << "Tabu search Metaheuristic\n";
-    t = clock();
-    std::vector<Bicluster> tabuBi = tabu_search_bicluster(dataMatrix, sortedBi, 100, 50);
-    t = clock() - t;
-    std::cout << "Running time: " << ((float)t)/CLOCKS_PER_SEC << "s\n";
-    printBiclusters(tabuBi);
-    std::cout << "Done Tabu search Metaheuristic\n";
-    std::cout << "Found " << tabuBi.size() << " biclusters." << std::endl;
+    // std::cout << "\nTabu search Metaheuristic\n";
+    // t = clock();
+    // std::vector<Bicluster> tabuBi = tabu_search_bicluster(dataMatrix, sortedBi, 100, 50);
+    // t = clock() - t;
+    // std::cout << "Running time: " << ((float)t)/CLOCKS_PER_SEC << "s\n";
+    // printBiclusters(tabuBi);
+    // std::cout << "Done Tabu search Metaheuristic\n";
+    // std::cout << "Found " << tabuBi.size() << " biclusters." << std::endl;
 
-    // GRASP:
+    // // GRASP:
     std::cout << "\nGRASP\n";
     t = clock();
-    std::vector<Bicluster> graspBi = runGraspHeuristic(dataMatrix, 1, 10, threshold_sorted, sortedBi[0]);
+    std::vector<Bicluster> graspBi = runGraspHeuristic(dataMatrix, 1, 20, threshold_sorted, sortedBi[3]);
     t = clock() - t;
     std::cout << "Running time: " << ((float)t)/CLOCKS_PER_SEC << "s\n";
     printBiclusters(graspBi);
